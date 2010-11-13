@@ -1,0 +1,14 @@
+{{response.files.append(URL(r=request,c='static',f='ckeditor/ckeditor.js'))}}
+{{extend "layout.html"}}
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+        CKEDITOR.replace('modelo_proposta_modelo', {
+            toolbar: [['Source', '-', 'Preview', '-', 'Templates'], ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Print', 'SpellChecker', 'Scayt'], ['Undo', 'Redo', '-', 'Find', 'Replace', '-', 'SelectAll', 'RemoveFormat'], '/', ['Bold', 'Italic', 'Underline'], ['NumberedList', 'BulletedList'], ['JustifyLeft', 'JustifyCenter', 'JustifyRight'], ['Image', 'Table'], '/', ['Styles', 'Format', 'Font', 'FontSize'], ['TextColor', 'BGColor'], ['Maximize', 'ShowBlocks']],
+            entermode: CKEDITOR.ENTER_P,
+        });
+        
+    });
+</script>
+{{=form}}<h4>Campos disponíveis</h4>
+{{=UL([LI(db.proposta[c].label,'-> [[=',c,']]') for c in campos])}}

@@ -1,0 +1,11 @@
+{{extend 'layout.html'}}
+<table width="100%" border="0">
+    <tr>
+        <td>
+            {{=form}}
+        </td>
+        <td>
+            {{=LOAD('default','editar_cenario',args=request.args(0),ajax=True,target='cen')}}
+        </td>
+    </tr>
+</table>

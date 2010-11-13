@@ -1,0 +1,18 @@
+{{
+
+from gluon.contrib.pyfpdf import FPDF, HTMLMixin
+from gluon.sanitizer import sanitize
+
+class MyFPDF(FPDF, HTMLMixin):
+    pass
+
+pdf=MyFPDF()
+pdf.add_page()
+html=response.render('%s/%s.html' %
+(request.controller,request.function))
+html = sanitize(html, escape=False)
+pdf.write_html(html)
+response.headers['Content-Type']='application/pdf'
+response.write(pdf.output(dest='S'), escape=False)
+
+}}

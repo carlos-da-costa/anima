@@ -1,0 +1,26 @@
+(dp1
+S'quantidade'
+p2
+S'INTEGER'
+p3
+sS'movimento'
+p4
+S'CHAR(512)'
+p5
+sS'marca'
+p6
+S'CHAR(512)'
+p7
+sS'item'
+p8
+S'INTEGER REFERENCES item_almoxarifado(id) ON DELETE CASCADE'
+p9
+sS'data'
+p10
+S'DATE'
+p11
+sS'id'
+p12
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p13
+s.

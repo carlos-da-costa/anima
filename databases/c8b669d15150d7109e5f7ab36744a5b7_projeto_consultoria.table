@@ -1,0 +1,26 @@
+(dp1
+S'diagnostico_beta'
+p2
+S'INTEGER REFERENCES diagnostico_beta(id) ON DELETE CASCADE'
+p3
+sS'encerrado'
+p4
+S'CHAR(1)'
+p5
+sS'id'
+p6
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p7
+sS'diagnostico_gama'
+p8
+S'INTEGER REFERENCES diagnostico_gama(id) ON DELETE CASCADE'
+p9
+sS'diagnostico_alfa'
+p10
+S'INTEGER REFERENCES diagnostico_alfa(id) ON DELETE CASCADE'
+p11
+sS'cliente'
+p12
+S'INTEGER REFERENCES parceiro(id) ON DELETE CASCADE'
+p13
+s.

@@ -1,0 +1,38 @@
+(dp1
+S'categoria'
+p2
+S'INTEGER REFERENCES categoria_entrada_saida(id) ON DELETE CASCADE'
+p3
+sS'recebida'
+p4
+S'CHAR(1)'
+p5
+sS'cliente'
+p6
+S'INTEGER REFERENCES parceiro(id) ON DELETE CASCADE'
+p7
+sS'vencimento'
+p8
+S'DATE'
+p9
+sS'data_recebimento'
+p10
+S'DATE'
+p11
+sS'valor'
+p12
+S'DOUBLE'
+p13
+sS'id'
+p14
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p15
+sS'descricao'
+p16
+S'TEXT'
+p17
+sS'tipo_documento'
+p18
+S'INTEGER REFERENCES tipo_documento(id) ON DELETE CASCADE'
+p19
+s.

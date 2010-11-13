@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{=T.accepted_language or 'en'}}">
+    <head>
+        <title>{{=response.title or request.application}}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        {{#------  require CSS and JS files for this page (read info in base.css) ------}}
+        {{response.files.append(URL(request.application,'static','base.css'))}}
+        {{response.files.append(URL(request.application,'static','jquery.layout.min.js'))}}
+        {{response.files.append(URL(request.application,'static','jquery/js/jquery-ui-1.8.6.custom.min.js'))}}
+        {{response.files.append(URL(request.application,'static','superfish.js'))}}
+        {{response.files.append(URL(request.application,'static','superfish.css'))}}
+        <link type="text/css" href="{{=URL(r=request,c='static',f='jquery/css/custom-theme/jquery-ui.custom.css')}}" rel="Stylesheet" />
+        {{#------ include web2py specific js code (jquery, calendar, form stuff) ------}}
+        {{include 'web2py_ajax.html'}}
+        <SCRIPT type="text/javascript">
+            $(document).ready(function(){
+                myLayout = $('body').layout({
+                    applyDefaultStyles: false,
+                    south__spacing_open: 0,
+                    north__spacing_open: 0,
+                    center__spacgin_open: 0
+                
+                });
+                $("ul.sf-menu").mouseover(function(){
+                    myLayout.allowOverflow(this)
+                })
+                $("ul.sf-menu").mouseout(function(){
+                    myLayout.resetOverflow(this)
+                })
+                $('button').button()
+                $('input:submit').button()
+            });
+        </SCRIPT>
+    </head>
+    <body>
+        <div class="ui-layout-center ui-widget-content">
+            <h4 class="ui-widget-header">{{=response.subtitle or 'response.subtitle'}}</h4>
+            <div class="flash">
+                {{=response.flash or ''}}
+            </div>
+            {{include}}
+        </div>
+        <div class="ui-layout-north ui-widget-content">
+            <div class="ui-widget-header">
+                <h4><a href="/anima">{{=response.title or 'response.title'}}</a></h4>
+                {{=MENU(response.menu,_class='sf-menu ui-widget' ,ul_class='ui-widget', li_cass='ui-state-default')}}
+                <script>
+                    jQuery(document).ready(function(){
+                        jQuery('ul.sf-menu').superfish({
+							hoverClass: 'ui-state-hover',
+							speed: 'normal',
+                            animation: {opacity:'show',height:'show'}
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="ui-layout-south">
+            <div class="ui-widget-footer">
+                {{=T('Copyright')}} &#169; 2010 - <a href="http://www.yamachine.com">Yamachine.com</a>
+                | <a href="http://www;ya-machine.com/suporte">Suporte</a>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,9 @@
+{{=LOAD('default','criar_editar_pergunta',[0,request.args(0)],ajax=False)}}
+<ul>
+{{for pergunta in perguntas:}}
+	{{LI('editar - %s'%pergunta.questao, _onclick="web2py_component(\'%s\', \'show_edit_create\')"%URL(r=request, f='criar_editar_pergunta', args=[pergunta.id]),_style='cursor:pointer')}}
+	{{a=PluginMModal(title='Editar Pergunta',content=LOAD('default','criar_editar_pergunta',[pergunta.id]),close="X",width=70,height=70)}}
+	{{=a}}
+	<li>{{=a.link('Editar - %s' % pergunta.questao)}}</li>
+{{pass}}
+</ul>

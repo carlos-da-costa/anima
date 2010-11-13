@@ -1,0 +1,26 @@
+(dp1
+S'nome'
+p2
+S'VARCHAR(512)'
+p3
+sS'saldo_inicial'
+p4
+S'DOUBLE'
+p5
+sS'numero'
+p6
+S'VARCHAR(512)'
+p7
+sS'id'
+p8
+S'INT AUTO_INCREMENT NOT NULL'
+p9
+sS'banco'
+p10
+S'INT, INDEX banco__idx (banco), FOREIGN KEY (banco) REFERENCES banco(id) ON DELETE CASCADE'
+p11
+sS'obs'
+p12
+S'LONGTEXT'
+p13
+s.

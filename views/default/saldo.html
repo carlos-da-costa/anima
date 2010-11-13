@@ -1,0 +1,12 @@
+{{extend 'layout.html'}}
+<table class="tabela">
+<thead><th>Conta</th><th>Saldo</th> </thead>
+<tbody>
+{{for saldo in saldos:}}
+	{{=TR(
+		TD(saldo[0]),
+		TD('R$ %0.2f' % saldo[1]))
+		}}
+{{pass}}
+</tbody>
+</table>

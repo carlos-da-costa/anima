@@ -1,0 +1,1605 @@
+timestamp: 2010-06-02T11:09:05.858000
+CREATE TABLE auth_user(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    email VARCHAR(128) UNIQUE,
+    password VARCHAR(256),
+    registration_key VARCHAR(128),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:06.199000
+CREATE TABLE auth_group(
+    id INT AUTO_INCREMENT NOT NULL,
+    role VARCHAR(512),
+    description LONGTEXT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:06.361000
+CREATE TABLE auth_membership(
+    id INT AUTO_INCREMENT NOT NULL,
+    user_id INT, INDEX user_id__idx (user_id), FOREIGN KEY (user_id) REFERENCES auth_user(id) ON DELETE CASCADE,
+    group_id INT, INDEX group_id__idx (group_id), FOREIGN KEY (group_id) REFERENCES auth_group(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:06.541000
+CREATE TABLE auth_permission(
+    id INT AUTO_INCREMENT NOT NULL,
+    group_id INT, INDEX group_id__idx (group_id), FOREIGN KEY (group_id) REFERENCES auth_group(id) ON DELETE CASCADE,
+    name VARCHAR(512),
+    table_name VARCHAR(512),
+    record_id INT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:06.732000
+CREATE TABLE auth_event(
+    id INT AUTO_INCREMENT NOT NULL,
+    time_stamp DATETIME,
+    client_ip VARCHAR(512),
+    user_id INT, INDEX user_id__idx (user_id), FOREIGN KEY (user_id) REFERENCES auth_user(id) ON DELETE CASCADE,
+    origin VARCHAR(512),
+    description LONGTEXT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:06.885000
+CREATE TABLE empresa(
+    id INT AUTO_INCREMENT NOT NULL,
+    razao_social VARCHAR(512),
+    cnpj VARCHAR(512),
+    cpf VARCHAR(512),
+    endereco VARCHAR(512),
+    numero VARCHAR(512),
+    uf VARCHAR(512),
+    cidade VARCHAR(512),
+    cliente_fornecedor VARCHAR(512),
+    fundacao INT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:07.046000
+CREATE TABLE perfil(
+    id INT AUTO_INCREMENT NOT NULL,
+    funcionarios INT,
+    raio_atuacao VARCHAR(512),
+    filiais INT,
+    atuacao_societaria VARCHAR(512),
+    briefing LONGTEXT,
+    historico LONGTEXT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:07.295000
+CREATE TABLE contato(
+    id INT AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(512),
+    celular VARCHAR(512),
+    email VARCHAR(512),
+    endereco VARCHAR(512),
+    numero VARCHAR(512),
+    cidade VARCHAR(512),
+    uf VARCHAR(512),
+    empresa INT, INDEX empresa__idx (empresa), FOREIGN KEY (empresa) REFERENCES empresa(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:07.445000
+CREATE TABLE grupo(
+    id INT AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:07.824000
+CREATE TABLE participacao(
+    id INT AUTO_INCREMENT NOT NULL,
+    contato INT, INDEX contato__idx (contato), FOREIGN KEY (contato) REFERENCES contato(id) ON DELETE CASCADE,
+    grupo INT, INDEX grupo__idx (grupo), FOREIGN KEY (grupo) REFERENCES grupo(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:08.373000
+CREATE TABLE log(
+    id INT AUTO_INCREMENT NOT NULL,
+    acao VARCHAR(512),
+    data DATETIME,
+    usuario INT, INDEX usuario__idx (usuario), FOREIGN KEY (usuario) REFERENCES auth_user(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:08.458000
+CREATE TABLE banco(
+    id INT AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(512),
+    agencia VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:08.722000
+CREATE TABLE conta(
+    id INT AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(512),
+    numero VARCHAR(512),
+    saldo_inicial DOUBLE,
+    banco INT, INDEX banco__idx (banco), FOREIGN KEY (banco) REFERENCES banco(id) ON DELETE CASCADE,
+    obs LONGTEXT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:09.008000
+CREATE TABLE tipo_documento(
+    id INT AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:09.304000
+CREATE TABLE categoria_entrada_saida(
+    id INT AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(512),
+    entrada_saida VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:09.506000
+CREATE TABLE conta_a_pagar(
+    id INT AUTO_INCREMENT NOT NULL,
+    fornecedor INT, INDEX fornecedor__idx (fornecedor), FOREIGN KEY (fornecedor) REFERENCES empresa(id) ON DELETE CASCADE,
+    valor DOUBLE,
+    vencimento DATE,
+    tipo_documento INT, INDEX tipo_documento__idx (tipo_documento), FOREIGN KEY (tipo_documento) REFERENCES tipo_documento(id) ON DELETE CASCADE,
+    data_pagamento DATE,
+    paga CHAR(1),
+    categoria INT, INDEX categoria__idx (categoria), FOREIGN KEY (categoria) REFERENCES categoria_entrada_saida(id) ON DELETE CASCADE,
+    descricao LONGTEXT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:09.931000
+CREATE TABLE conta_a_receber(
+    id INT AUTO_INCREMENT NOT NULL,
+    cliente INT, INDEX cliente__idx (cliente), FOREIGN KEY (cliente) REFERENCES empresa(id) ON DELETE CASCADE,
+    valor DOUBLE,
+    vencimento DATE,
+    tipo_documento INT, INDEX tipo_documento__idx (tipo_documento), FOREIGN KEY (tipo_documento) REFERENCES tipo_documento(id) ON DELETE CASCADE,
+    data_recebimento DATE,
+    recebida CHAR(1),
+    categoria INT, INDEX categoria__idx (categoria), FOREIGN KEY (categoria) REFERENCES categoria_entrada_saida(id) ON DELETE CASCADE,
+    descricao LONGTEXT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:10.305000
+CREATE TABLE saida(
+    id INT AUTO_INCREMENT NOT NULL,
+    conta INT, INDEX conta__idx (conta), FOREIGN KEY (conta) REFERENCES conta(id) ON DELETE CASCADE,
+    data DATE,
+    documento INT,
+    valor DOUBLE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:10.446000
+CREATE TABLE entrada(
+    id INT AUTO_INCREMENT NOT NULL,
+    conta INT, INDEX conta__idx (conta), FOREIGN KEY (conta) REFERENCES conta(id) ON DELETE CASCADE,
+    data DATE,
+    documento VARCHAR(512),
+    valor DOUBLE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:10.554000
+CREATE TABLE item_almoxarifado(
+    id INT AUTO_INCREMENT NOT NULL,
+    descricao VARCHAR(512),
+    unidade VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:10.674000
+CREATE TABLE movimento_almoxarifado(
+    id INT AUTO_INCREMENT NOT NULL,
+    item INT, INDEX item__idx (item), FOREIGN KEY (item) REFERENCES item_almoxarifado(id) ON DELETE CASCADE,
+    quantidade INT,
+    movimento VARCHAR(512),
+    data DATE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:10.906000
+CREATE TABLE produto(
+    id INT AUTO_INCREMENT NOT NULL,
+    descricao VARCHAR(512),
+    unidade VARCHAR(512),
+    descontinuado CHAR(1),
+    fornecedor INT, INDEX fornecedor__idx (fornecedor), FOREIGN KEY (fornecedor) REFERENCES empresa(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:11.029000
+CREATE TABLE movimento_estoque(
+    id INT AUTO_INCREMENT NOT NULL,
+    produto INT, INDEX produto__idx (produto), FOREIGN KEY (produto) REFERENCES produto(id) ON DELETE CASCADE,
+    quantidade INT,
+    data DATE,
+    movimento VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:10:19.384000
+ALTER TABLE contato ADD cargo VARCHAR(512);
+success!
+timestamp: 2010-06-02T11:17:25.242000
+CREATE TABLE unidade(
+    id INT AUTO_INCREMENT NOT NULL,
+    sigla VARCHAR(512),
+    descricao VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:22:01.561000
+ALTER TABLE item_almoxarifado ADD unidade__tmp INT, ADD INDEX unidade__idx (unidade), ADD FOREIGN KEY (unidade) REFERENCES unidade(id) ON DELETE CASCADE;
+timestamp: 2010-06-02T11:22:19.949000
+ALTER TABLE item_almoxarifado ADD unidade__tmp INT, ADD INDEX unidade__idx (unidade), ADD FOREIGN KEY (unidade) REFERENCES unidade(id) ON DELETE CASCADE;
+timestamp: 2010-06-02T11:23:25.856000
+ALTER TABLE item_almoxarifado ADD unidade__tmp INT, ADD INDEX unidade__idx (unidade), ADD FOREIGN KEY (unidade) REFERENCES unidade(id) ON DELETE CASCADE;
+faked!
+UPDATE item_almoxarifado SET unidade__tmp=unidade;
+faked!
+ALTER TABLE item_almoxarifado DROP COLUMN unidade;
+faked!
+ALTER TABLE item_almoxarifado ADD unidade INT, ADD INDEX unidade__idx (unidade), ADD FOREIGN KEY (unidade) REFERENCES unidade(id) ON DELETE CASCADE;
+faked!
+UPDATE item_almoxarifado SET unidade=unidade__tmp;
+faked!
+ALTER TABLE item_almoxarifado DROP COLUMN unidade__tmp;
+faked!
+timestamp: 2010-06-02T11:23:25.866000
+ALTER TABLE produto ADD unidade__tmp INT, ADD INDEX unidade__idx (unidade), ADD FOREIGN KEY (unidade) REFERENCES unidade(id) ON DELETE CASCADE;
+faked!
+UPDATE produto SET unidade__tmp=unidade;
+faked!
+ALTER TABLE produto DROP COLUMN unidade;
+faked!
+ALTER TABLE produto ADD unidade INT, ADD INDEX unidade__idx (unidade), ADD FOREIGN KEY (unidade) REFERENCES unidade(id) ON DELETE CASCADE;
+faked!
+UPDATE produto SET unidade=unidade__tmp;
+faked!
+ALTER TABLE produto DROP COLUMN unidade__tmp;
+faked!
+timestamp: 2010-06-02T13:29:45.112000
+ALTER TABLE saida ADD documento__tmp VARCHAR(512);
+success!
+UPDATE saida SET documento__tmp=documento;
+success!
+ALTER TABLE saida DROP COLUMN documento;
+success!
+ALTER TABLE saida ADD documento VARCHAR(512);
+success!
+UPDATE saida SET documento=documento__tmp;
+success!
+ALTER TABLE saida DROP COLUMN documento__tmp;
+success!
+timestamp: 2010-06-07T09:37:36.521000
+ALTER TABLE perfil ADD cliente INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES empresa(id) ON DELETE CASCADE;
+success!
+timestamp: 2010-06-07T09:43:59.011000
+CREATE TABLE funcionario(
+    id INT AUTO_INCREMENT NOT NULL,
+    usuario INT, INDEX usuario__idx (usuario), FOREIGN KEY (usuario) REFERENCES auth_user(id) ON DELETE CASCADE,
+    nome VARCHAR(512),
+    cpf VARCHAR(512),
+    endereco VARCHAR(512),
+    numero VARCHAR(512),
+    uf VARCHAR(512),
+    cidade VARCHAR(512),
+    salario_atual NUMERIC(10,2),
+    vencimento_salario DATE,
+    cargo VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-07T13:50:18.092000
+ALTER TABLE funcionario ADD vencimento_salario__tmp INT;
+success!
+UPDATE funcionario SET vencimento_salario__tmp=vencimento_salario;
+success!
+ALTER TABLE funcionario DROP COLUMN vencimento_salario;
+success!
+ALTER TABLE funcionario ADD vencimento_salario INT;
+success!
+UPDATE funcionario SET vencimento_salario=vencimento_salario__tmp;
+success!
+ALTER TABLE funcionario DROP COLUMN vencimento_salario__tmp;
+success!
+timestamp: 2010-06-07T14:29:10.756000
+CREATE TABLE diagnostico(
+    id INT AUTO_INCREMENT NOT NULL,
+    sede_propria CHAR(1),
+    reformas VARCHAR(512),
+    mudancas VARCHAR(512),
+    maquinas_equipmantos LONGTEXT,
+    outros_fisico LONGTEXT,
+    caixa LONGTEXT,
+    investimento LONGTEXT,
+    custos LONGTEXT,
+    pagar_receber LONGTEXT,
+    estoque LONGTEXT,
+    efetivos INT,
+    terceirizados INT,
+    estagiarios INT,
+    outros_rh VARCHAR(512),
+    organograma VARCHAR(512),
+    missao LONGTEXT,
+    visao LONGTEXT,
+    principios LONGTEXT,
+    ne VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-07T14:31:32.063000
+CREATE TABLE projeto_consultoria(
+    id INT AUTO_INCREMENT NOT NULL,
+    cliente INT, INDEX cliente__idx (cliente), FOREIGN KEY (cliente) REFERENCES empresa(id) ON DELETE CASCADE,
+    perfil INT, INDEX perfil__idx (perfil), FOREIGN KEY (perfil) REFERENCES perfil(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-13T15:13:55.409000
+CREATE TABLE parceiros(
+    id INT AUTO_INCREMENT NOT NULL,
+    razao_social VARCHAR(512),
+    cnpj VARCHAR(512),
+    cpf VARCHAR(512),
+    endereco VARCHAR(512),
+    numero VARCHAR(512),
+    uf VARCHAR(512),
+    cidade VARCHAR(512),
+    e_cliente CHAR(1),
+    e_fornecedor CHAR(1),
+    site VARCHAR(512),
+    fundacao INT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-13T15:17:51.024000
+CREATE TABLE parceiro(
+    id INT AUTO_INCREMENT NOT NULL,
+    razao_social VARCHAR(512),
+    cnpj VARCHAR(512),
+    cpf VARCHAR(512),
+    endereco VARCHAR(512),
+    numero VARCHAR(512),
+    uf VARCHAR(512),
+    cidade VARCHAR(512),
+    e_cliente CHAR(1),
+    e_fornecedor CHAR(1),
+    site VARCHAR(512),
+    fundacao INT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-13T15:22:08.439000
+CREATE TABLE empresa(
+    id INT AUTO_INCREMENT NOT NULL,
+    razao_social VARCHAR(512),
+    cnpj VARCHAR(512),
+    cpf VARCHAR(512),
+    endereco VARCHAR(512),
+    numero VARCHAR(512),
+    uf VARCHAR(512),
+    cidade VARCHAR(512),
+    cliente_fornecedor VARCHAR(512),
+    fundacao INT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-13T15:22:08.558000
+ALTER TABLE parceiro ADD e_cliente CHAR(1);
+success!
+timestamp: 2010-07-13T15:22:08.910000
+ALTER TABLE parceiro ADD site VARCHAR(512);
+success!
+timestamp: 2010-07-13T15:22:09.219000
+ALTER TABLE parceiro ADD e_fornecedor CHAR(1);
+success!
+timestamp: 2010-07-13T15:22:09.485000
+ALTER TABLE parceiro DROP COLUMN cliente_fornecedor;
+success!
+timestamp: 2010-07-13T15:23:22.161000
+ALTER TABLE perfil ADD cliente__tmp INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE;
+timestamp: 2010-07-13T15:25:45.623000
+ALTER TABLE perfil ADD cliente__tmp INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE;
+timestamp: 2010-07-13T16:11:23.492000
+ALTER TABLE perfil ADD cliente__tmp INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE;
+timestamp: 2010-07-13T16:27:33.083000
+ALTER TABLE perfil ADD cliente__tmp INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE;
+timestamp: 2010-07-13T16:28:57.154000
+ALTER TABLE perfil ADD cliente__tmp INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE;
+timestamp: 2010-07-13T16:30:31.814000
+ALTER TABLE perfil ADD cliente__tmp INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE;
+timestamp: 2010-07-13T16:32:08.303000
+ALTER TABLE perfil ADD cliente__tmp INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE;
+timestamp: 2010-07-13T16:47:18.204000
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512)
+);
+success!
+timestamp: 2010-07-13T16:47:18.308000
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2010-07-13T16:47:18.437000
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id REFERENCES auth_user(id) ON DELETE CASCADE,
+    group_id REFERENCES auth_group(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2010-07-13T16:47:18.577000
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id REFERENCES auth_group(id) ON DELETE CASCADE,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2010-07-13T16:47:18.734000
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id REFERENCES auth_user(id) ON DELETE CASCADE,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2010-07-14T14:52:17.883000
+CREATE TABLE empresa(
+    id INT AUTO_INCREMENT NOT NULL,
+    razao_social VARCHAR(512),
+    cnpj VARCHAR(512),
+    cpf VARCHAR(512),
+    endereco VARCHAR(512),
+    numero VARCHAR(512),
+    uf VARCHAR(512),
+    cidade VARCHAR(512),
+    cliente_fornecedor VARCHAR(512),
+    fundacao INT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2010-07-14T14:52:44.817000
+ALTER TABLE contato ADD empresa__tmp INT, ADD INDEX empresa__idx (empresa), ADD FOREIGN KEY (empresa) REFERENCES empresa(id) ON DELETE CASCADE;
+timestamp: 2010-07-14T15:07:42.334000
+ALTER TABLE parceiro ADD e_cliente CHAR(1);
+timestamp: 2010-07-14T15:08:11.632000
+ALTER TABLE parceiro ADD e_cliente CHAR(1);
+timestamp: 2010-07-14T16:08:38.817000
+ALTER TABLE parceiro ADD e_cliente CHAR(1);
+timestamp: 2010-07-14T16:13:24.984000
+ALTER TABLE parceiro ADD e_fornecedor CHAR(1);
+timestamp: 2010-07-14T16:15:47.430000
+ALTER TABLE parceiro ADD e_cliente CHAR(1);
+timestamp: 2010-07-14T16:17:28.675000
+ALTER TABLE parceiro ADD e_cliente CHAR(1);
+timestamp: 2010-07-14T16:41:27.078000
+ALTER TABLE parceiro ADD e_cliente CHAR(1);
+faked!
+timestamp: 2010-07-14T16:41:27.078000
+ALTER TABLE parceiro ADD e_fornecedor CHAR(1);
+faked!
+timestamp: 2010-07-14T17:41:56.271000
+ALTER TABLE parceiro DROP COLUMN cliente_fornecedor;
+timestamp: 2010-07-14T17:42:07.739000
+ALTER TABLE parceiro DROP COLUMN cliente_fornecedor;
+timestamp: 2010-07-14T17:47:05.417000
+ALTER TABLE parceiro DROP COLUMN cliente_fornecedor;
+success!
+timestamp: 2010-07-14T17:59:30.622000
+ALTER TABLE grupo ADD observacao LONGTEXT;
+success!
+timestamp: 2010-07-14T18:02:30.483000
+ALTER TABLE banco ADD cidade VARCHAR(512);
+success!
+timestamp: 2010-07-14T18:02:30.848000
+ALTER TABLE banco ADD uf VARCHAR(512);
+success!
+timestamp: 2010-07-14T18:05:47.977000
+ALTER TABLE movimento_almoxarifado ADD marca VARCHAR(512);
+success!
+timestamp: 2010-07-14T18:05:48.361000
+ALTER TABLE movimento_estoque ADD marca VARCHAR(512);
+success!
+timestamp: 2010-07-19T18:04:02.166000
+CREATE TABLE modelo_proposta(
+    id INT AUTO_INCREMENT NOT NULL,
+    descricao VARCHAR(512),
+    modelo LONGTEXT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-19T18:09:22.133000
+CREATE TABLE proposta(
+    id INT AUTO_INCREMENT NOT NULL,
+    modelo INT, INDEX modelo__idx (modelo), FOREIGN KEY (modelo) REFERENCES modelo_proposta(id) ON DELETE CASCADE,
+    data_criacao DATE,
+    prazo VARCHAR(512),
+    ch_horaira_sujerida VARCHAR(512),
+    investimento NUMERIC(10,2),
+    forma_pagamento VARCHAR(512),
+    prazo_pagamento LONGTEXT,
+    validade DATE,
+    aprovada CHAR(1),
+    data_aprovacao DATE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-19T18:09:37.910000
+CREATE TABLE categoria_cenario(
+    id INT AUTO_INCREMENT NOT NULL,
+    descricao VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-19T18:09:37.962000
+CREATE TABLE item_cenario(
+    id INT AUTO_INCREMENT NOT NULL,
+    descricao VARCHAR(512),
+    categoria INT, INDEX categoria__idx (categoria), FOREIGN KEY (categoria) REFERENCES categoria_cenario(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-19T18:09:37.981000
+CREATE TABLE cenario(
+    id INT AUTO_INCREMENT NOT NULL,
+    proposta INT, INDEX proposta__idx (proposta), FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE,
+    item_cenario INT, INDEX item_cenario__idx (item_cenario), FOREIGN KEY (item_cenario) REFERENCES item_cenario(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-19T18:09:38.052000
+CREATE TABLE modelo_contrato(
+    id INT AUTO_INCREMENT NOT NULL,
+    descricao VARCHAR(512),
+    modelo VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-19T18:09:38.105000
+CREATE TABLE contrato(
+    id INT AUTO_INCREMENT NOT NULL,
+    modelo INT, INDEX modelo__idx (modelo), FOREIGN KEY (modelo) REFERENCES modelo_contrato(id) ON DELETE CASCADE,
+    proposta INT, INDEX proposta__idx (proposta), FOREIGN KEY (proposta) REFERENCES modelo_proposta(id) ON DELETE CASCADE,
+    contato_responsavel INT, INDEX contato_responsavel__idx (contato_responsavel), FOREIGN KEY (contato_responsavel) REFERENCES contato(id) ON DELETE CASCADE,
+    periodo_visitacao VARCHAR(512),
+    encerramento DATE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-19T18:09:38.151000
+CREATE TABLE projeto_consultoria(
+    id INT AUTO_INCREMENT NOT NULL,
+    cliente INT, INDEX cliente__idx (cliente), FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE,
+    proposta INT, INDEX proposta__idx (proposta), FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE,
+    contrato INT, INDEX contrato__idx (contrato), FOREIGN KEY (contrato) REFERENCES contrato(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2010-07-19T18:10:14.378000
+CREATE TABLE projeto_consultoria(
+    id INT AUTO_INCREMENT NOT NULL,
+    cliente INT, INDEX cliente__idx (cliente), FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE,
+    proposta INT, INDEX proposta__idx (proposta), FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE,
+    contrato INT, INDEX contrato__idx (contrato), FOREIGN KEY (contrato) REFERENCES contrato(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2010-07-20T14:01:48.896000
+CREATE TABLE projeto_consultoria(
+    id INT AUTO_INCREMENT NOT NULL,
+    cliente INT, INDEX cliente__idx (cliente), FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE,
+    proposta INT, INDEX proposta__idx (proposta), FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE,
+    contrato INT, INDEX contrato__idx (contrato), FOREIGN KEY (contrato) REFERENCES contrato(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-20T14:38:37.802000
+ALTER TABLE parceiro ADD nome VARCHAR(512);
+success!
+timestamp: 2010-07-20T14:47:01.840000
+ALTER TABLE modelo_contrato ADD modelo__tmp LONGTEXT;
+success!
+UPDATE modelo_contrato SET modelo__tmp=modelo;
+success!
+ALTER TABLE modelo_contrato DROP COLUMN modelo;
+success!
+ALTER TABLE modelo_contrato ADD modelo LONGTEXT;
+success!
+UPDATE modelo_contrato SET modelo=modelo__tmp;
+success!
+ALTER TABLE modelo_contrato DROP COLUMN modelo__tmp;
+success!
+timestamp: 2010-07-20T14:47:02.180000
+ALTER TABLE contrato ADD proposta__tmp INT, ADD INDEX proposta__idx (proposta), ADD FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE;
+timestamp: 2010-07-20T14:48:11.898000
+ALTER TABLE contrato ADD proposta__tmp INT, ADD INDEX proposta__idx (proposta), ADD FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE;
+timestamp: 2010-07-20T14:49:34.605000
+ALTER TABLE contrato ADD proposta__tmp INT, ADD INDEX proposta__idx (proposta), ADD FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE;
+timestamp: 2010-07-20T14:54:41.101000
+ALTER TABLE contrato ADD proposta__tmp INT, ADD INDEX proposta__idx (proposta), ADD FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE;
+timestamp: 2010-07-20T14:55:15.237000
+ALTER TABLE contrato ADD proposta_aceita INT, ADD INDEX proposta_aceita__idx (proposta_aceita), ADD FOREIGN KEY (proposta_aceita) REFERENCES proposta(id) ON DELETE CASCADE;
+success!
+timestamp: 2010-07-20T14:55:15.272000
+ALTER TABLE contrato DROP COLUMN proposta;
+timestamp: 2010-07-20T14:57:19.412000
+ALTER TABLE contrato ADD proposta_aceita INT, ADD INDEX proposta_aceita__idx (proposta_aceita), ADD FOREIGN KEY (proposta_aceita) REFERENCES proposta(id) ON DELETE CASCADE;
+timestamp: 2010-07-20T14:57:36.228000
+ALTER TABLE contrato ADD proposta__tmp INT, ADD INDEX proposta__idx (proposta), ADD FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE;
+timestamp: 2010-07-20T14:58:33.290000
+ALTER TABLE contrato ADD proposta__tmp INT, ADD INDEX proposta__idx (proposta), ADD FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE;
+timestamp: 2010-07-20T15:00:52.573000
+ALTER TABLE contrato ADD proposta__tmp INT, ADD INDEX proposta__idx (proposta), ADD FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE;
+timestamp: 2010-07-20T15:02:51.875000
+ALTER TABLE contrato ADD proposta__tmp INT, ADD INDEX proposta__idx (proposta), ADD FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE;
+timestamp: 2010-07-20T15:04:25.534000
+ALTER TABLE contrato ADD proposta__tmp INT, ADD INDEX proposta__idx (proposta), ADD FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE;
+success!
+UPDATE contrato SET proposta__tmp=proposta;
+success!
+ALTER TABLE contrato DROP COLUMN proposta;
+timestamp: 2010-07-20T15:25:08.190000
+ALTER TABLE contrato ADD proposta__tmp INT, ADD INDEX proposta__idx (proposta), ADD FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE;
+timestamp: 2010-07-20T15:25:37.707000
+CREATE TABLE contrato(
+    id INT AUTO_INCREMENT NOT NULL,
+    modelo INT, INDEX modelo__idx (modelo), FOREIGN KEY (modelo) REFERENCES modelo_contrato(id) ON DELETE CASCADE,
+    proposta INT, INDEX proposta__idx (proposta), FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE,
+    contato_responsavel INT, INDEX contato_responsavel__idx (contato_responsavel), FOREIGN KEY (contato_responsavel) REFERENCES contato(id) ON DELETE CASCADE,
+    periodo_visitacao VARCHAR(512),
+    encerramento DATE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-20T15:27:26.679000
+ALTER TABLE projeto_consultoria DROP COLUMN proposta;
+timestamp: 2010-07-20T15:29:51.300000
+ALTER TABLE projeto_consultoria DROP COLUMN proposta;
+timestamp: 2010-07-20T15:32:37.643000
+CREATE TABLE projeto_consultoria(
+    id INT AUTO_INCREMENT NOT NULL,
+    cliente INT, INDEX cliente__idx (cliente), FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE,
+    contrato INT, INDEX contrato__idx (contrato), FOREIGN KEY (contrato) REFERENCES contrato(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-20T18:23:37.434000
+CREATE TABLE projeto_proposta(
+    id INT AUTO_INCREMENT NOT NULL,
+    projeto INT, INDEX projeto__idx (projeto), FOREIGN KEY (projeto) REFERENCES projeto_consultoria(id) ON DELETE CASCADE,
+    proposta INT, INDEX proposta__idx (proposta), FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-23T11:01:23.031000
+ALTER TABLE projeto_consultoria DROP COLUMN contrato;
+timestamp: 2010-07-23T11:01:50.607000
+ALTER TABLE projeto_consultoria DROP COLUMN contrato;
+timestamp: 2010-07-23T11:02:22.517000
+CREATE TABLE parceiro(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    razao_social CHAR(512),
+    nome CHAR(512),
+    cnpj CHAR(512),
+    cpf CHAR(512),
+    endereco CHAR(512),
+    numero CHAR(512),
+    uf CHAR(512),
+    cidade CHAR(512),
+    e_cliente CHAR(1),
+    e_fornecedor CHAR(1),
+    fundacao INTEGER
+);
+success!
+timestamp: 2010-07-23T11:02:22.549000
+CREATE TABLE funcionario(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    nome CHAR(512),
+    cpf CHAR(512),
+    endereco CHAR(512),
+    numero CHAR(512),
+    uf CHAR(512),
+    cidade CHAR(512),
+    salario_atual DOUBLE,
+    vencimento_salario INTEGER,
+    cargo CHAR(512)
+);
+success!
+timestamp: 2010-07-23T11:02:22.561000
+CREATE TABLE contato(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome CHAR(512),
+    cargo CHAR(512),
+    celular CHAR(512),
+    email CHAR(512),
+    endereco CHAR(512),
+    numero CHAR(512),
+    cidade CHAR(512),
+    uf CHAR(512),
+    empresa INTEGER REFERENCES parceiro(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2010-07-23T11:02:22.569000
+CREATE TABLE grupo(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome CHAR(512),
+    observacao TEXT
+);
+success!
+timestamp: 2010-07-23T11:02:22.580000
+CREATE TABLE participacao(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    contato INTEGER REFERENCES contato(id) ON DELETE CASCADE,
+    grupo INTEGER REFERENCES grupo(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2010-07-23T11:02:22.589000
+CREATE TABLE log(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    acao CHAR(512),
+    data TIMESTAMP,
+    usuario INTEGER REFERENCES auth_user(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2010-07-23T11:02:22.600000
+CREATE TABLE banco(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome CHAR(512),
+    agencia CHAR(512),
+    cidade CHAR(512),
+    uf CHAR(512)
+);
+success!
+timestamp: 2010-07-23T11:02:22.612000
+CREATE TABLE conta(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome CHAR(512),
+    numero CHAR(512),
+    saldo_inicial DOUBLE,
+    banco INTEGER REFERENCES banco(id) ON DELETE CASCADE,
+    obs TEXT
+);
+success!
+timestamp: 2010-07-23T11:02:22.642000
+CREATE TABLE tipo_documento(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome CHAR(512)
+);
+success!
+timestamp: 2010-07-23T11:02:22.650000
+CREATE TABLE categoria_entrada_saida(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome CHAR(512),
+    entrada_saida CHAR(512)
+);
+success!
+timestamp: 2010-07-23T11:02:22.659000
+CREATE TABLE conta_a_pagar(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    fornecedor INTEGER REFERENCES parceiro(id) ON DELETE CASCADE,
+    valor DOUBLE,
+    vencimento DATE,
+    tipo_documento INTEGER REFERENCES tipo_documento(id) ON DELETE CASCADE,
+    data_pagamento DATE,
+    paga CHAR(1),
+    categoria INTEGER REFERENCES categoria_entrada_saida(id) ON DELETE CASCADE,
+    descricao TEXT
+);
+success!
+timestamp: 2010-07-23T11:02:22.676000
+CREATE TABLE conta_a_receber(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    cliente INTEGER REFERENCES parceiro(id) ON DELETE CASCADE,
+    valor DOUBLE,
+    vencimento DATE,
+    tipo_documento INTEGER REFERENCES tipo_documento(id) ON DELETE CASCADE,
+    data_recebimento DATE,
+    recebida CHAR(1),
+    categoria INTEGER REFERENCES categoria_entrada_saida(id) ON DELETE CASCADE,
+    descricao TEXT
+);
+success!
+timestamp: 2010-07-23T11:02:22.707000
+CREATE TABLE saida(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conta INTEGER REFERENCES conta(id) ON DELETE CASCADE,
+    data DATE,
+    documento CHAR(512),
+    valor DOUBLE
+);
+success!
+timestamp: 2010-07-23T11:02:22.717000
+CREATE TABLE entrada(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conta INTEGER REFERENCES conta(id) ON DELETE CASCADE,
+    data DATE,
+    documento CHAR(512),
+    valor DOUBLE
+);
+success!
+timestamp: 2010-07-23T11:02:22.725000
+CREATE TABLE unidade(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sigla CHAR(512),
+    descricao CHAR(512)
+);
+success!
+timestamp: 2010-07-23T11:02:22.735000
+CREATE TABLE item_almoxarifado(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    descricao CHAR(512),
+    unidade INTEGER REFERENCES unidade(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2010-07-23T11:02:22.750000
+CREATE TABLE movimento_almoxarifado(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item INTEGER REFERENCES item_almoxarifado(id) ON DELETE CASCADE,
+    quantidade INTEGER,
+    movimento CHAR(512),
+    data DATE,
+    marca CHAR(512)
+);
+success!
+timestamp: 2010-07-23T11:02:22.768000
+CREATE TABLE produto(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    descricao CHAR(512),
+    unidade INTEGER REFERENCES unidade(id) ON DELETE CASCADE,
+    descontinuado CHAR(1),
+    fornecedor INTEGER REFERENCES parceiro(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2010-07-23T11:02:22.777000
+CREATE TABLE movimento_estoque(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    produto INTEGER REFERENCES produto(id) ON DELETE CASCADE,
+    quantidade INTEGER,
+    data DATE,
+    movimento CHAR(512),
+    marca CHAR(512)
+);
+success!
+timestamp: 2010-07-23T11:02:22.821000
+CREATE TABLE modelo_proposta(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    descricao CHAR(512),
+    modelo TEXT
+);
+success!
+timestamp: 2010-07-23T11:02:22.833000
+CREATE TABLE proposta(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    modelo INTEGER REFERENCES modelo_proposta(id) ON DELETE CASCADE,
+    data_criacao DATE,
+    prazo CHAR(512),
+    ch_horaira_sujerida CHAR(512),
+    investimento DOUBLE,
+    forma_pagamento CHAR(512),
+    prazo_pagamento TEXT,
+    validade DATE,
+    aprovada CHAR(1),
+    data_aprovacao DATE
+);
+success!
+timestamp: 2010-07-23T11:02:22.910000
+CREATE TABLE categoria_cenario(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    descricao CHAR(512)
+);
+success!
+timestamp: 2010-07-23T11:02:22.940000
+CREATE TABLE item_cenario(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    descricao CHAR(512),
+    categoria INTEGER REFERENCES categoria_cenario(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2010-07-23T11:02:22.958000
+CREATE TABLE cenario(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    proposta INTEGER REFERENCES proposta(id) ON DELETE CASCADE,
+    item_cenario INTEGER REFERENCES item_cenario(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2010-07-23T11:02:23.010000
+CREATE TABLE modelo_contrato(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    descricao CHAR(512),
+    modelo TEXT
+);
+success!
+timestamp: 2010-07-23T11:02:23.069000
+CREATE TABLE projeto_consultoria(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    cliente INTEGER REFERENCES parceiro(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2010-07-23T11:03:05.575000
+ALTER TABLE projeto_consultoria DROP COLUMN contrato;
+timestamp: 2010-07-23T11:03:25.286000
+ALTER TABLE projeto_consultoria DROP COLUMN contrato;
+timestamp: 2010-07-23T11:06:14.393000
+CREATE TABLE contrato(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    modelo INTEGER REFERENCES modelo_contrato(id) ON DELETE CASCADE,
+    proposta INTEGER REFERENCES proposta(id) ON DELETE CASCADE,
+    contato_responsavel INTEGER REFERENCES contato(id) ON DELETE CASCADE,
+    periodo_visitacao CHAR(512),
+    encerramento DATE
+);
+success!
+timestamp: 2010-07-23T11:06:14.404000
+CREATE TABLE projeto_proposta(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    projeto INTEGER REFERENCES projeto_consultoria(id) ON DELETE CASCADE,
+    proposta INTEGER REFERENCES proposta(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2010-07-23T12:11:16.750000
+CREATE TABLE plugin_wiki_page(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    slug CHAR(512),
+    title CHAR(512),
+    active CHAR(1),
+    public CHAR(1),
+    body TEXT,
+    role INTEGER REFERENCES auth_group(id) ON DELETE CASCADE,
+    changelog CHAR(512),
+    created_by INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    created_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    modified_on TIMESTAMP
+);
+success!
+timestamp: 2010-07-23T12:11:16.783000
+CREATE TABLE plugin_wiki_page_archive(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    current_record INTEGER REFERENCES plugin_wiki_page(id) ON DELETE CASCADE,
+    slug CHAR(512),
+    title CHAR(512),
+    active CHAR(1),
+    public CHAR(1),
+    body TEXT,
+    role INTEGER REFERENCES auth_group(id) ON DELETE CASCADE,
+    changelog CHAR(512),
+    created_by INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    created_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    modified_on TIMESTAMP
+);
+success!
+timestamp: 2010-07-23T12:11:16.793000
+CREATE TABLE plugin_wiki_attachment(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tablename CHAR(512),
+    record_id INTEGER,
+    name CHAR(512),
+    file CHAR(512),
+    created_by INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    created_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    modified_on TIMESTAMP
+);
+success!
+timestamp: 2010-07-23T12:11:16.808000
+CREATE TABLE plugin_wiki_comment(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tablename CHAR(512),
+    record_id INTEGER,
+    body CHAR(512),
+    created_by INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    created_on TIMESTAMP
+);
+success!
+timestamp: 2010-07-23T12:11:16.821000
+CREATE TABLE plugin_wiki_tag(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    links INTEGER,
+    created_by INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    created_on TIMESTAMP
+);
+success!
+timestamp: 2010-07-23T12:11:16.832000
+CREATE TABLE plugin_wiki_link(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tag INTEGER REFERENCES plugin_wiki_tag(id) ON DELETE CASCADE,
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2010-07-23T14:06:23.834000
+ALTER TABLE proposta ADD projeto INTEGER REFERENCES projeto_consultoria(id) ON DELETE CASCADE;
+timestamp: 2010-07-23T14:15:36.759000
+ALTER TABLE contrato ADD projeto INTEGER REFERENCES projeto_consultoria(id) ON DELETE CASCADE;
+timestamp: 2010-08-19T10:25:49.166000
+CREATE TABLE questionario(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo CHAR(512)
+);
+success!
+timestamp: 2010-08-19T10:57:30.214000
+CREATE TABLE grupo_quest(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo CHAR(512)
+);
+success!
+timestamp: 2010-08-19T11:02:17.707000
+ALTER TABLE grupo_quest ADD questionario INTEGER REFERENCES questionario(id) ON DELETE CASCADE;
+timestamp: 2010-08-19T11:04:21.669000
+CREATE TABLE pergunta(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    questionario INTEGER REFERENCES questionario(id) ON DELETE CASCADE,
+    questao CHAR(512),
+    tipo CHAR(512),
+    alternativas TEXT,
+    grupo INTEGER REFERENCES grupo_quest(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2010-08-19T11:04:39.322000
+CREATE TABLE execucao_quest(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    questionario INTEGER REFERENCES questionario(id) ON DELETE CASCADE,
+    data CHAR(512)
+);
+success!
+timestamp: 2010-08-19T11:04:39.399000
+CREATE TABLE respostas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    pergunta INTEGER REFERENCES pergunta(id) ON DELETE CASCADE,
+    execucao INTEGER REFERENCES execucao_quest(id) ON DELETE CASCADE,
+    valor TEXT
+);
+success!
+timestamp: 2010-08-23T17:08:03.021000
+CREATE TABLE diagnostico_alfa(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    data DATE,
+    contato_responsavel INTEGER REFERENCES contato(id) ON DELETE CASCADE,
+    data_inicio DATE,
+    data_terminio DATE,
+    qualidade_produto CHAR(512),
+    padronizacao_produto CHAR(512),
+    aceitacao_produto CHAR(512),
+    transparencia_formacao_preco CHAR(512),
+    canais_distribuicao CHAR(512),
+    politicas_promocionais_divulgacao CHAR(512),
+    propaganda_forca_venda CHAR(512),
+    pesquisa_mercado CHAR(512),
+    controle_insumos_materia_prima CHAR(512),
+    capacidade_producao_suporte CHAR(512),
+    capacidade_utilizacao CHAR(512),
+    eficiencia_produttiva CHAR(512),
+    estrutura_custo_producao CHAR(512),
+    controles_estoque_reposicao CHAR(512),
+    instalacoes_equipamentos CHAR(512),
+    controle_equipamentos CHAR(512),
+    inovacao_processo_produtivo CHAR(512),
+    flexibilizacao_processo_produtivo CHAR(512),
+    coleta_dados_informacao CHAR(512),
+    capacidade_armazenamento_dados CHAR(512),
+    qualidade_dados_informacao CHAR(512),
+    integracao_sistema_gerencial CHAR(512),
+    velocidade_resposta_sistema CHAR(512),
+    habilidade CHAR(512),
+    experiencia CHAR(512),
+    comprometimento_objetivos CHAR(512),
+    trabalho_equipe CHAR(512),
+    coordenacao_esforcos CHAR(512),
+    flexibilizacao_administrativa CHAR(512),
+    procedimentos_administrativos CHAR(512),
+    operacionalizacao_procedimentos CHAR(512),
+    capacidade_tecnica_operativa CHAR(512),
+    sistema_gestao_rh CHAR(512),
+    formalizacao_contratual CHAR(512),
+    rotatividade_pessoal CHAR(512),
+    motivacao_trabalhadores CHAR(512),
+    desenvolvimento_tecnico_profissional CHAR(512),
+    sistema_qualificacao_profissional CHAR(512),
+    estimulo_produtividade CHAR(512),
+    sistema_recrutamento_selecao CHAR(512),
+    beneficios CHAR(512),
+    sistema_adminissao_demissao CHAR(512),
+    avaliacao_desempenho CHAR(512)
+);
+success!
+timestamp: 2010-08-23T17:08:03.149000
+ALTER TABLE projeto_consultoria ADD diagnostico_alfa INTEGER REFERENCES diagnostico_alfa(id) ON DELETE CASCADE;
+timestamp: 2010-08-25T13:50:13.173000
+CREATE TABLE diagnostico_beta(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    produtos_servicos CHAR(512),
+    produtos_servicos_mais_vendidos CHAR(512),
+    produtos_servicos_menos_vendidos CHAR(512),
+    publico_alvo CHAR(512),
+    tipo_sede CHAR(512),
+    total_empregados_vinculo CHAR(512),
+    empregados_sem_vinculo CHAR(512),
+    total_funcionarios CHAR(512),
+    setorizada_formalmente CHAR(512),
+    num_fun_adm_finam CHAR(512),
+    num_fun_rh CHAR(512),
+    num_fun_comercial CHAR(512),
+    num_func_distrib_logistica CHAR(512),
+    num_func_outros CHAR(512),
+    num_admissoes CHAR(512),
+    num_demissoes CHAR(512),
+    num_promocoes CHAR(512),
+    num_aposentadorias CHAR(512),
+    num_afastamentos CHAR(512),
+    num_acidentes_trabalho CHAR(512),
+    nao_possui_num_ocorrencias CHAR(512),
+    grau_instrucao_proprietario CHAR(512),
+    num_func_esino_superior_compl CHAR(512),
+    num_func_esino_medio_compl CHAR(512),
+    num_fun_ensino_fundamental_compl CHAR(512),
+    num_func_ensino_superior_imcompl CHAR(512),
+    num_func_ensino_medio_incompl CHAR(512),
+    num_func_ensino_fundamental_imcompl CHAR(512),
+    programas_formais_empreendedorismo CHAR(512),
+    diretrizes_estrategicas_formalmente_definidas CHAR(512),
+    comunicacao_formal_estrategia_empregados CHAR(512),
+    organograma_definido CHAR(512),
+    plano_cargos_salarios CHAR(512),
+    fluxograma CHAR(512),
+    procedimento_operacional_padronizado CHAR(512),
+    informatizada CHAR(512),
+    software_adotado CHAR(512),
+    software_atende_necessidades CHAR(512),
+    software_emite_relatorios CHAR(512),
+    responsavel_suporte_software CHAR(512),
+    todos_funcionarios_operam_software CHAR(512),
+    projeto_social_ambiental CHAR(512),
+    descricao_projeto_social_ambiental CHAR(512),
+    protecao_meio_ambiente CHAR(512),
+    descricao_protecao_meio_ambiente CHAR(512),
+    total_faturamento_anterior CHAR(512),
+    total_custos_fixos_ano_anterior CHAR(512),
+    reducao_custos CHAR(512),
+    descricao_reducao_custos CHAR(512),
+    ativo_empresa_ano_atual CHAR(512),
+    passivo_empresa_ano_atual CHAR(512),
+    cadastro_clientes_completo CHAR(512),
+    criterios_para_vendas CHAR(512),
+    informacao_profunda_clientes CHAR(512),
+    pesquisa_mercado_satisfacao CHAR(512),
+    estrategia_marketing CHAR(512),
+    pesquisa_mercado CHAR(512),
+    estrategia_marca CHAR(512),
+    rede_comunicacao CHAR(512),
+    lideres_monitoram_clima_organizacional CHAR(512),
+    praticas_formais_perfis_competencias CHAR(512),
+    investimentos_formais_liderancas CHAR(512),
+    processo_regular_periodico_monitoramento_clima_organizacional CHAR(512),
+    obs_gerais_lideranca CHAR(512),
+    interna_externa CHAR(512),
+    conhece_direitos_obrigacoes_tributos CHAR(512),
+    planejamento_tributario CHAR(512),
+    frequencia_balancos CHAR(512),
+    controle_estoques CHAR(512),
+    emissao_notas_fiscais CHAR(512),
+    obs_gerais_contabilidade CHAR(512)
+);
+success!
+timestamp: 2010-08-25T15:18:08.657000
+ALTER TABLE diagnostico_beta ADD tomada_decisoes_promocoes TEXT;
+timestamp: 2010-08-25T15:18:08.755000
+ALTER TABLE diagnostico_beta ADD beneficios TEXT;
+timestamp: 2010-08-25T15:18:08.769000
+ALTER TABLE diagnostico_beta ADD programa_formal_qualidade_vida CHAR(512);
+timestamp: 2010-08-25T15:18:08.781000
+ALTER TABLE diagnostico_beta ADD distribui_resultados_lucros CHAR(512);
+timestamp: 2010-08-25T15:18:08.793000
+ALTER TABLE diagnostico_beta ADD num_func_ensino_fundamental_compl INTEGER;
+timestamp: 2010-08-25T15:18:08.838000
+ALTER TABLE diagnostico_beta ADD investe_cursos_capacitacao CHAR(512);
+timestamp: 2010-08-25T15:18:08.847000
+ALTER TABLE diagnostico_beta ADD programa_formal_recrutamento_interno CHAR(512);
+timestamp: 2010-08-25T15:18:08.860000
+ALTER TABLE diagnostico_beta ADD programa_formal_preventivo_saude CHAR(512);
+timestamp: 2010-08-25T15:18:08.870000
+ALTER TABLE diagnostico_beta ADD resultado_pesquisa_satisfacao TEXT;
+timestamp: 2010-08-25T15:18:08.877000
+ALTER TABLE diagnostico_beta ADD num_prop_ensino_superior_imcompl INTEGER;
+timestamp: 2010-08-25T15:18:08.909000
+ALTER TABLE diagnostico_beta ADD cursos_capacitacao_todos_setores CHAR(512);
+timestamp: 2010-08-25T15:18:08.917000
+ALTER TABLE diagnostico_beta ADD programa_formal_recrutamento_externo CHAR(512);
+timestamp: 2010-08-25T15:18:08.946000
+ALTER TABLE diagnostico_beta ADD num_prop_ensino_medio_incompl INTEGER;
+timestamp: 2010-08-25T15:18:08.955000
+ALTER TABLE diagnostico_beta ADD num_prop_ensino_fundamental_imcompl INTEGER;
+timestamp: 2010-08-25T15:18:08.964000
+ALTER TABLE diagnostico_beta ADD num_func_ensino_superior_compl INTEGER;
+timestamp: 2010-08-25T15:18:09.009000
+ALTER TABLE diagnostico_beta ADD num_prop_esino_medio_compl INTEGER;
+timestamp: 2010-08-25T15:18:09.026000
+ALTER TABLE diagnostico_beta ADD num_prop_ensino_fundamental_compl INTEGER;
+timestamp: 2010-08-25T15:18:09.036000
+ALTER TABLE diagnostico_beta ADD possui_cipa CHAR(512);
+timestamp: 2010-08-25T15:18:09.045000
+ALTER TABLE diagnostico_beta ADD utiliza_informacoes_software CHAR(512);
+timestamp: 2010-08-25T15:18:09.055000
+ALTER TABLE diagnostico_beta ADD num_prop_esino_superior_compl INTEGER;
+timestamp: 2010-08-25T15:18:09.064000
+ALTER TABLE diagnostico_beta ADD num_func_ensino_medio_compl INTEGER;
+timestamp: 2010-08-25T15:19:47.170000
+ALTER TABLE projeto_consultoria ADD diagnostico_beta INTEGER REFERENCES diagnostico_beta(id) ON DELETE CASCADE;
+timestamp: 2010-08-25T16:39:11.222000
+ALTER TABLE diagnostico_beta ADD contato_responsavel INTEGER REFERENCES contato(id) ON DELETE CASCADE;
+timestamp: 2010-08-25T16:39:11.275000
+ALTER TABLE diagnostico_beta ADD data DATE;
+timestamp: 2010-09-16T14:03:53.558000
+CREATE TABLE diagnostico_gama(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    lideranca_1 CHAR(512),
+    lideranca_2 CHAR(512),
+    lideranca_3 CHAR(512),
+    lideranca_4 CHAR(512),
+    lideranca_5 CHAR(512),
+    lideranca_6 CHAR(512),
+    lideranca_7 CHAR(512),
+    lideranca_pontos CHAR(512)
+);
+success!
+timestamp: 2010-09-16T14:06:55.080000
+ALTER TABLE projeto_consultoria ADD diagnostico_gama INTEGER REFERENCES diagnostico_gama(id) ON DELETE CASCADE;
+timestamp: 2010-09-17T15:10:57.980000
+ALTER TABLE diagnostico_gama ADD resp_social_pontos CHAR(512);
+timestamp: 2010-09-17T15:10:58.064000
+ALTER TABLE diagnostico_gama ADD estrategias_planos_7 CHAR(512);
+timestamp: 2010-09-17T15:10:58.071000
+ALTER TABLE diagnostico_gama ADD estrategias_planos_6 CHAR(512);
+timestamp: 2010-09-17T15:10:58.080000
+ALTER TABLE diagnostico_gama ADD estrategias_planos_5 CHAR(512);
+timestamp: 2010-09-17T15:10:58.087000
+ALTER TABLE diagnostico_gama ADD estrategias_planos_4 CHAR(512);
+timestamp: 2010-09-17T15:10:58.105000
+ALTER TABLE diagnostico_gama ADD estrategias_planos_3 CHAR(512);
+timestamp: 2010-09-17T15:10:58.113000
+ALTER TABLE diagnostico_gama ADD estrategias_planos_2 CHAR(512);
+timestamp: 2010-09-17T15:10:58.123000
+ALTER TABLE diagnostico_gama ADD estrategias_planos_1 CHAR(512);
+timestamp: 2010-09-17T15:10:58.130000
+ALTER TABLE diagnostico_gama ADD clientes_pontos CHAR(512);
+timestamp: 2010-09-17T15:10:58.137000
+ALTER TABLE diagnostico_gama ADD estrategia_planos_pontos CHAR(512);
+timestamp: 2010-09-17T15:10:58.151000
+ALTER TABLE diagnostico_gama ADD info_conhecimento_1 CHAR(512);
+timestamp: 2010-09-17T15:10:58.159000
+ALTER TABLE diagnostico_gama ADD info_conhecimento_3 CHAR(512);
+timestamp: 2010-09-17T15:10:58.167000
+ALTER TABLE diagnostico_gama ADD info_conhecimento_2 CHAR(512);
+timestamp: 2010-09-17T15:10:58.175000
+ALTER TABLE diagnostico_gama ADD info_conhecimento_5 CHAR(512);
+timestamp: 2010-09-17T15:10:58.183000
+ALTER TABLE diagnostico_gama ADD info_conhecimento_4 CHAR(512);
+timestamp: 2010-09-17T15:10:58.215000
+ALTER TABLE diagnostico_gama ADD info_conhecimento_7 CHAR(512);
+timestamp: 2010-09-17T15:10:58.227000
+ALTER TABLE diagnostico_gama ADD info_conhecimento_6 CHAR(512);
+timestamp: 2010-09-17T15:10:58.236000
+ALTER TABLE diagnostico_gama ADD clientes_2 CHAR(512);
+timestamp: 2010-09-17T15:10:58.244000
+ALTER TABLE diagnostico_gama ADD clientes_3 CHAR(512);
+timestamp: 2010-09-17T15:10:58.254000
+ALTER TABLE diagnostico_gama ADD clientes_1 CHAR(512);
+timestamp: 2010-09-17T15:10:58.263000
+ALTER TABLE diagnostico_gama ADD clientes_6 CHAR(512);
+timestamp: 2010-09-17T15:10:58.271000
+ALTER TABLE diagnostico_gama ADD clientes_7 CHAR(512);
+timestamp: 2010-09-17T15:10:58.287000
+ALTER TABLE diagnostico_gama ADD clientes_4 CHAR(512);
+timestamp: 2010-09-17T15:10:58.294000
+ALTER TABLE diagnostico_gama ADD clientes_5 CHAR(512);
+timestamp: 2010-09-17T15:10:58.305000
+ALTER TABLE diagnostico_gama ADD resp_social_1 CHAR(512);
+timestamp: 2010-09-17T15:10:58.314000
+ALTER TABLE diagnostico_gama ADD resp_social_2 CHAR(512);
+timestamp: 2010-09-17T15:10:58.324000
+ALTER TABLE diagnostico_gama ADD resp_social_3 CHAR(512);
+timestamp: 2010-09-17T15:10:58.338000
+ALTER TABLE diagnostico_gama ADD resp_social_4 CHAR(512);
+timestamp: 2010-09-17T15:10:58.348000
+ALTER TABLE diagnostico_gama ADD resp_social_5 CHAR(512);
+timestamp: 2010-09-17T15:10:58.358000
+ALTER TABLE diagnostico_gama ADD resp_social_6 CHAR(512);
+timestamp: 2010-09-17T15:10:58.368000
+ALTER TABLE diagnostico_gama ADD resp_social_7 CHAR(512);
+timestamp: 2010-09-17T16:14:08.812000
+ALTER TABLE diagnostico_gama ADD resultados_pontos CHAR(512);
+timestamp: 2010-09-17T16:14:09.078000
+ALTER TABLE diagnostico_gama ADD pessoas_7 CHAR(512);
+timestamp: 2010-09-17T16:14:09.086000
+ALTER TABLE diagnostico_gama ADD pessoas_1 CHAR(512);
+timestamp: 2010-09-17T16:14:09.094000
+ALTER TABLE diagnostico_gama ADD processo_pontos CHAR(512);
+timestamp: 2010-09-17T16:14:09.104000
+ALTER TABLE diagnostico_gama ADD pessoas_6 CHAR(512);
+timestamp: 2010-09-17T16:14:09.113000
+ALTER TABLE diagnostico_gama ADD pessoas_4 CHAR(512);
+timestamp: 2010-09-17T16:14:09.168000
+ALTER TABLE diagnostico_gama ADD info_conhecimento_pontos CHAR(512);
+timestamp: 2010-09-17T16:14:09.177000
+ALTER TABLE diagnostico_gama ADD pessoas_5 CHAR(512);
+timestamp: 2010-09-17T16:14:09.187000
+ALTER TABLE diagnostico_gama ADD pessoas_2 CHAR(512);
+timestamp: 2010-09-17T16:14:09.197000
+ALTER TABLE diagnostico_gama ADD pessoas_3 CHAR(512);
+timestamp: 2010-09-17T16:14:09.208000
+ALTER TABLE diagnostico_gama ADD resultados_6 CHAR(512);
+timestamp: 2010-09-17T16:14:09.217000
+ALTER TABLE diagnostico_gama ADD resultados_5 CHAR(512);
+timestamp: 2010-09-17T16:14:09.242000
+ALTER TABLE diagnostico_gama ADD resultados_4 CHAR(512);
+timestamp: 2010-09-17T16:14:09.254000
+ALTER TABLE diagnostico_gama ADD resultados_3 CHAR(512);
+timestamp: 2010-09-17T16:14:09.341000
+ALTER TABLE diagnostico_gama ADD resultados_2 CHAR(512);
+timestamp: 2010-09-17T16:14:09.372000
+ALTER TABLE diagnostico_gama ADD resultados_1 CHAR(512);
+timestamp: 2010-09-17T16:14:09.384000
+ALTER TABLE diagnostico_gama ADD processo_1 CHAR(512);
+timestamp: 2010-09-17T16:14:09.394000
+ALTER TABLE diagnostico_gama ADD processo_3 CHAR(512);
+timestamp: 2010-09-17T16:14:09.429000
+ALTER TABLE diagnostico_gama ADD processo_2 CHAR(512);
+timestamp: 2010-09-17T16:14:09.443000
+ALTER TABLE diagnostico_gama ADD processo_5 CHAR(512);
+timestamp: 2010-09-17T16:14:09.454000
+ALTER TABLE diagnostico_gama ADD processo_4 CHAR(512);
+timestamp: 2010-09-17T16:14:09.463000
+ALTER TABLE diagnostico_gama ADD processo_7 CHAR(512);
+timestamp: 2010-09-17T16:14:09.473000
+ALTER TABLE diagnostico_gama ADD processo_6 CHAR(512);
+timestamp: 2010-09-17T16:14:09.482000
+ALTER TABLE diagnostico_gama ADD pessoas_pontos CHAR(512);
+timestamp: 2010-09-22T12:57:49.634000
+CREATE TABLE caixa(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conta INTEGER REFERENCES conta(id) ON DELETE CASCADE,
+    data DATE,
+    documento CHAR(512),
+    movimento CHAR(512),
+    valor DOUBLE
+);
+success!
+timestamp: 2010-09-22T12:57:49.713000
+ALTER TABLE movimento_estoque ADD preco DOUBLE;
+timestamp: 2010-09-28T18:58:52.249000
+CREATE TABLE plano_acao(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    projeto INTEGER REFERENCES projeto_consultoria(id) ON DELETE CASCADE,
+    o_que CHAR(512),
+    quando DATE,
+    quanto CHAR(512),
+    quem INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    onde CHAR(512),
+    por_que CHAR(512),
+    como CHAR(Como?)
+);
+timestamp: 2010-09-28T18:59:07.046000
+CREATE TABLE plano_acao(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    projeto INTEGER REFERENCES projeto_consultoria(id) ON DELETE CASCADE,
+    o_que CHAR(512),
+    quando DATE,
+    quanto CHAR(512),
+    quem INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    onde CHAR(512),
+    por_que CHAR(512),
+    como CHAR(Como?)
+);
+timestamp: 2010-09-28T18:59:29.110000
+CREATE TABLE plano_acao(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    projeto INTEGER REFERENCES projeto_consultoria(id) ON DELETE CASCADE,
+    o_que CHAR(512),
+    quando DATE,
+    quanto CHAR(512),
+    quem INTEGER REFERENCES auth_user(id) ON DELETE CASCADE,
+    onde CHAR(512),
+    por_que CHAR(512),
+    como CHAR(512)
+);
+success!
+timestamp: 2010-09-28T18:59:29.169000
+CREATE TABLE atividades(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    plano_acao INTEGER REFERENCES plano_acao(id) ON DELETE CASCADE,
+    descricao TEXT,
+    data_limite DATE,
+    concluido INTEGER
+);
+success!
+timestamp: 2010-09-28T19:30:53.712000
+CREATE TABLE atividade(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    plano_acao INTEGER REFERENCES plano_acao(id) ON DELETE CASCADE,
+    descricao TEXT,
+    data_limite DATE,
+    concluido INTEGER
+);
+success!
+timestamp: 2010-09-30T17:15:02.120000
+CREATE TABLE registro_info(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    projeto INTEGER REFERENCES projeto_consultoria(id) ON DELETE CASCADE,
+    data DATE,
+    tipo CHAR(512),
+    outro_tipo CHAR(512),
+    descricao TEXT,
+    atividades TEXT,
+    plano_acao INTEGER REFERENCES plano_acao(id) ON DELETE CASCADE,
+    situacoes_definidas TEXT,
+    consideracoes_finais TEXT
+);
+success!
+timestamp: 2010-10-01T17:06:37.603000
+CREATE TABLE planejamento_estrategico(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    projeto INTEGER REFERENCES projeto_consultoria(id) ON DELETE CASCADE,
+    data DATE,
+    participantes TEXT,
+    negocio TEXT,
+    missao TEXT,
+    visao TEXT,
+    principios_valores TEXT,
+    objetivos TEXT,
+    produtos_servicos TEXT,
+    setores TEXT,
+    funcionamento_seg_sex CHAR(512),
+    funcionamento_sab CHAR(512),
+    levantamento_custos_fixos TEXT,
+    levantamento_investimento TEXT,
+    planejamento_marketing TEXT,
+    consideracoes_finais TEXT
+);
+success!
+timestamp: 2010-10-01T17:22:20.916000
+CREATE TABLE setor(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    descricao CHAR(512),
+    planejamento_estrategico INTEGER REFERENCES planejamento_estrategico(id) ON DELETE CASCADE,
+    atividades TEXT
+);
+success!
+timestamp: 2010-10-06T13:55:38.080000
+CREATE TABLE caixa2(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conta INTEGER REFERENCES conta(id) ON DELETE CASCADE,
+    data DATE,
+    documento CHAR(512),
+    movimento CHAR(512),
+    valor DOUBLE
+);
+success!
+timestamp: 2010-11-03T14:53:26.292000
+ALTER TABLE proposta ADD ch_horaria_sujerida CHAR(512);
+timestamp: 2010-11-03T15:55:17.371000
+ALTER TABLE parceiro ADD complemento CHAR(512);
+timestamp: 2010-11-03T15:55:17.791000
+ALTER TABLE parceiro ADD bairro CHAR(512);
+timestamp: 2010-11-03T15:55:18.125000
+ALTER TABLE contato ADD complemento CHAR(512);
+timestamp: 2010-11-03T15:55:18.265000
+ALTER TABLE contato ADD bairro CHAR(512);
+timestamp: 2010-11-03T15:55:18.397000
+ALTER TABLE contato ADD rg CHAR(512);
+timestamp: 2010-11-03T15:55:18.496000
+ALTER TABLE contato ADD cpf CHAR(512);
+timestamp: 2010-11-03T15:55:21.660000
+ALTER TABLE proposta ADD frequencia_visitas CHAR(512);
+timestamp: 2010-11-03T15:55:22.060000
+ALTER TABLE contrato ADD previsao_encerramento DATE;
+timestamp: 2010-11-03T16:11:33.731000
+ALTER TABLE proposta ADD contato_responsavel INTEGER REFERENCES contato(id) ON DELETE CASCADE;
+timestamp: 2010-11-08T16:36:15.916000
+ALTER TABLE auth_user ADD cargo CHAR(512);
+timestamp: 2010-11-08T16:36:16.201000
+ALTER TABLE auth_user ADD complemento CHAR(512);
+timestamp: 2010-11-08T16:36:16.288000
+ALTER TABLE auth_user ADD bairro CHAR(512);
+timestamp: 2010-11-08T16:36:16.466000
+ALTER TABLE auth_user ADD cidade CHAR(512);
+timestamp: 2010-11-08T16:36:16.552000
+ALTER TABLE auth_user ADD empresa INTEGER REFERENCES parceiro(id) ON DELETE CASCADE;
+timestamp: 2010-11-08T16:36:16.630000
+ALTER TABLE auth_user ADD numero CHAR(512);
+timestamp: 2010-11-08T16:36:16.717000
+ALTER TABLE auth_user ADD rg CHAR(512);
+timestamp: 2010-11-08T16:36:16.794000
+ALTER TABLE auth_user ADD cpf CHAR(512);
+timestamp: 2010-11-08T16:36:16.872000
+ALTER TABLE auth_user ADD endereco CHAR(512);
+timestamp: 2010-11-08T16:36:16.977000
+ALTER TABLE auth_user ADD uf CHAR(512);
+timestamp: 2010-11-08T16:36:17.082000
+ALTER TABLE auth_user ADD celular CHAR(512);
+timestamp: 2010-11-08T16:38:56.541000
+ALTER TABLE parceiro ADD admin CHAR(1);
+timestamp: 2010-11-08T16:40:07.269000
+ALTER TABLE auth_user ADD admin CHAR(1);
+timestamp: 2010-11-08T17:33:41.678000
+CREATE TABLE menu(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    legenda CHAR(512),
+    url CHAR(512),
+    menu_pai INTEGER REFERENCES menu(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2010-11-08T17:33:59.069000
+CREATE TABLE barra_menu(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo CHAR(512),
+    menus TEXT
+);
+success!
+timestamp: 2010-11-08T17:48:13.153000
+ALTER TABLE menu ADD acao CHAR(512);
+timestamp: 2010-11-08T17:48:13.315000
+ALTER TABLE menu ADD controlador CHAR(512);
+timestamp: 2010-11-08T18:09:22.352000
+ALTER TABLE menu ADD papeis TEXT;
+timestamp: 2010-11-08T18:27:58.635000
+CREATE TABLE auth_grupo(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description CHAR(512)
+);
+success!
+timestamp: 2010-11-08T19:51:48.602000
+ALTER TABLE menu ADD sub_menus TEXT;
+timestamp: 2010-11-08T22:33:40.607000
+ALTER TABLE contato ADD visualiza_projeto CHAR(1);
+timestamp: 2010-11-08T22:33:40.931000
+ALTER TABLE contato ADD visualiza_tarefas CHAR(1);
+timestamp: 2010-11-09T14:41:09.823000
+ALTER TABLE projeto_consultoria ADD encerrado CHAR(1);
+timestamp: 2010-11-09T17:09:54.766000
+ALTER TABLE auth_user ADD visualiza_projeto CHAR(1);
+timestamp: 2010-11-09T17:09:54.931000
+ALTER TABLE auth_user ADD visualiza_tarefas CHAR(1);
+timestamp: 2010-11-10T15:15:39.322000
+CREATE TABLE test(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    cpf CHAR(512)
+);
+success!
+timestamp: 2010-11-10T15:18:41.934000
+ALTER TABLE test ADD cnpj CHAR(512);
+timestamp: 2010-11-11T15:17:07.463000
+ALTER TABLE auth_user ADD area_cliente CHAR(1);
+timestamp: 2010-11-12T14:55:29.757000
+CREATE TABLE cidade(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome CHAR(512),
+    uf CHAR(512)
+);
+success!

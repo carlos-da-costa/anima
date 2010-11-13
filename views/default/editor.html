@@ -1,0 +1,41 @@
+{{response.files.append(URL(request.application,'static','jquery.designmode.js'))}}
+{{extend 'layout.html'}}
+
+        <script type="text/javascript">
+        	
+            $(document).ready(function(){
+                $("#editor").designMode();
+                $('#editor').execCommand('styleWithCSS',false,false);
+                $("#editor").execCommand('insertBrOnReturn', false, false);
+                $('#editor').execCommand('formatBlock','<p>');
+                
+            });
+			
+			function boldIt(){
+				$("#editor").execCommand('bold');
+				
+			}
+			
+			function center(){
+				$("#editor").execCommand('justifyCenter',false,false);
+			}
+			
+			function source(){
+				html = document.createTextNode(document.getElementById('editor').contentWindow.document.body.innerHTML);
+    			html = document.getElementById('editor').contentWindow.document.importNode(html,false);
+    			document.getElementById('source').contentWindow.document.body.innerHTML='';
+    			document.getElementById('source').contentWindow.document.body.appendChild(html);
+				
+			}
+			
+        </script>
+    
+        <iframe id="editor" onClick="alert('oi');" style="width: 200px; height:70px">
+        </iframe>
+        
+        <input type="button" onClick="boldIt()" value="Toggle Bold">
+        <input type="button" onClick="center()" value="Center">
+        <input type="button" onClick="source()" value="Source">
+        <iframe id="source">
+        </iframe>
+    

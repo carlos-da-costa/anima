@@ -1,0 +1,22 @@
+(dp1
+S'item'
+p2
+S'INT, INDEX item__idx (item), FOREIGN KEY (item) REFERENCES item_almoxarifado(id) ON DELETE CASCADE'
+p3
+sS'quantidade'
+p4
+S'INT'
+p5
+sS'id'
+p6
+S'INT AUTO_INCREMENT NOT NULL'
+p7
+sS'data'
+p8
+S'DATE'
+p9
+sS'movimento'
+p10
+S'VARCHAR(512)'
+p11
+s.

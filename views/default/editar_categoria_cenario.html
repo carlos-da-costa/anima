@@ -1,0 +1,20 @@
+{{extend "layout.html"}}
+<script type="text/javascript">
+	$(function() {
+		$("#tabs").tabs();
+	});
+</script>
+
+<div id="tabs">
+	<ul>
+		<li><a href="#tabs-geral">Geral</a></li>
+		<li><a href="#tabs-itens">Itens de Cenário</a></li>
+	</ul>
+	
+	<div id="tabs-geral">
+		{{=form}}
+	</div>
+	<div id="tabs-itens">
+		{{=LOAD('default','item_cenario',args=request.args(0),ajax=True)}}
+	</div>
+</div>

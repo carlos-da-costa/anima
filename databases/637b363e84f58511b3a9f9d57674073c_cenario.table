@@ -1,0 +1,14 @@
+(dp1
+S'proposta'
+p2
+S'INT, INDEX proposta__idx (proposta), FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE'
+p3
+sS'id'
+p4
+S'INT AUTO_INCREMENT NOT NULL'
+p5
+sS'item_cenario'
+p6
+S'INT, INDEX item_cenario__idx (item_cenario), FOREIGN KEY (item_cenario) REFERENCES item_cenario(id) ON DELETE CASCADE'
+p7
+s.

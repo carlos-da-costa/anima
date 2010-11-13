@@ -1,0 +1,14 @@
+(dp1
+S'contrato'
+p2
+S'INT, INDEX contrato__idx (contrato), FOREIGN KEY (contrato) REFERENCES contrato(id) ON DELETE CASCADE'
+p3
+sS'id'
+p4
+S'INT AUTO_INCREMENT NOT NULL'
+p5
+sS'cliente'
+p6
+S'INT, INDEX cliente__idx (cliente), FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE'
+p7
+s.

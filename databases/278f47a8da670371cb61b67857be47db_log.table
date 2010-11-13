@@ -1,0 +1,18 @@
+(dp1
+S'acao'
+p2
+S'VARCHAR(512)'
+p3
+sS'data'
+p4
+S'DATETIME'
+p5
+sS'id'
+p6
+S'INT AUTO_INCREMENT NOT NULL'
+p7
+sS'usuario'
+p8
+S'INT, INDEX usuario__idx (usuario), FOREIGN KEY (usuario) REFERENCES auth_user(id) ON DELETE CASCADE'
+p9
+s.

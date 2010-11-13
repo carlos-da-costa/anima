@@ -1,0 +1,42 @@
+(dp1
+S'outro_tipo'
+p2
+S'CHAR(512)'
+p3
+sS'tipo'
+p4
+S'CHAR(512)'
+p5
+sS'projeto'
+p6
+S'INTEGER REFERENCES projeto_consultoria(id) ON DELETE CASCADE'
+p7
+sS'plano_acao'
+p8
+S'INTEGER REFERENCES plano_acao(id) ON DELETE CASCADE'
+p9
+sS'consideracoes_finais'
+p10
+S'TEXT'
+p11
+sS'atividades'
+p12
+S'TEXT'
+p13
+sS'situacoes_definidas'
+p14
+S'TEXT'
+p15
+sS'data'
+p16
+S'DATE'
+p17
+sS'id'
+p18
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p19
+sS'descricao'
+p20
+S'TEXT'
+p21
+s.

@@ -1,0 +1,26 @@
+(dp1
+S'encerramento'
+p2
+S'DATE'
+p3
+sS'contato_responsavel'
+p4
+S'INT, INDEX contato_responsavel__idx (contato_responsavel), FOREIGN KEY (contato_responsavel) REFERENCES contato(id) ON DELETE CASCADE'
+p5
+sS'periodo_visitacao'
+p6
+S'VARCHAR(512)'
+p7
+sS'proposta'
+p8
+S'INT, INDEX proposta__idx (proposta), FOREIGN KEY (proposta) REFERENCES proposta(id) ON DELETE CASCADE'
+p9
+sS'modelo'
+p10
+S'INT, INDEX modelo__idx (modelo), FOREIGN KEY (modelo) REFERENCES modelo_contrato(id) ON DELETE CASCADE'
+p11
+sS'id'
+p12
+S'INT AUTO_INCREMENT NOT NULL'
+p13
+s.

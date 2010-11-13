@@ -1,0 +1,22 @@
+(dp1
+S'unidade'
+p2
+S'INT, INDEX unidade__idx (unidade), FOREIGN KEY (unidade) REFERENCES unidade(id) ON DELETE CASCADE'
+p3
+sS'fornecedor'
+p4
+S'INT, INDEX fornecedor__idx (fornecedor), FOREIGN KEY (fornecedor) REFERENCES parceiro(id) ON DELETE CASCADE'
+p5
+sS'id'
+p6
+S'INT AUTO_INCREMENT NOT NULL'
+p7
+sS'descricao'
+p8
+S'VARCHAR(512)'
+p9
+sS'descontinuado'
+p10
+S'CHAR(1)'
+p11
+s.

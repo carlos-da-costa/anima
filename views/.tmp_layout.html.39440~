@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{=T.accepted_language or 'en'}}">
+    <head>
+        <title>{{=response.title or request.application}}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        {{#------  require CSS and JS files for this page (read info in base.css) ------}}
+        {{response.files.append(URL(request.application,'static','base.css'))}}
+        {{response.files.append(URL(request.application,'static','jquery.layout.min.js'))}}
+        {{response.files.append(URL(request.application,'static','superfish.js'))}}
+        {{response.files.append(URL(request.application,'static','superfish.css'))}}
+        {{response.files.append(URL(request.application,'static','tags_widget.js'))}}
+        {{#------ include web2py specific js code (jquery, calendar, form stuff) ------}}
+        {{include 'web2py_ajax.html'}}
+        <SCRIPT type="text/javascript">
+            $(document).ready(function(){
+                myLayout = $('body').layout({
+                    applyDefaultStyles: true,
+                    south__spacing_open: 0,
+                    north__spacing_open: 0,
+                    center__spacgin_open: 0
+                
+                });
+                $("ul.sf-menu").mouseover(function(){
+                    myLayout.allowOverflow(this)
+                })
+                $("ul.sf-menu").mouseout(function(){
+                    myLayout.resetOverflow(this)
+                })
+            });
+        </SCRIPT>
+    </head>
+    <body>
+        <div class="ui-layout-center">
+            <div id="content" class="ui-widget-content" style="display:block;">
+            	<div class="flash">{{=response.flash or ''}}</div>
+                {{include}}
+            </div>
+        </div>
+        <div class="ui-layout-north ">
+            <div class="ui-widget-header">
+                <h3><a href="">{{=response.title or 'response.title'}}</a></h3>
+                <h4>{{=response.subtitle or 'response.subtitle'}}</h4>
+                {{=MENU(response.menu,_class='sf-menu')}}
+                <script>
+                    jQuery(document).ready(function(){
+                        jQuery('ul.sf-menu').superfish({
+                            delay: 400
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="ui-layout-south">
+            <div class="ui-widget-footer" >
+                {{=T('Copyright')}} &#169; 2010 - <a href="http://www.yamachine.com">Yamachine.com</a>
+                | <a href="http://www;ya-machine.com/suporte">Suporte</a>
+            </div>
+        </div>
+    </body>
+</html>

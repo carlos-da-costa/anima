@@ -1,0 +1,27 @@
+{{extend 'layout.html'}}
+{{if not auth.is_logged_in():}}
+<div>
+    <h4 style="text-align:center;">{{=message}}</h4>
+    <div class="ui-widget-content" style="width:auto;margin-left:auto">
+		<h4 class="ui-widget-header">Login</h4>
+        {{=LOAD('default','user.load','login',ajax=False)}}
+    </div>
+</div>
+{{else:}}
+<div class="ui-widget-content" style="width:auto;float:left">
+    <h4 class="ui-widget-header">Projetos Ativos</h4>
+    {{=projetos}}
+</div>
+<div class="ui-widget-content" style="width:auto;float:left">
+    <h4 class="ui-widget-header">Atividades Pendentes</h4>
+    {{=atividades}}
+</div>
+<div class="ui-widget-content" style="width:auto;float:left">
+    <h4 class="ui-widget-header">Contas a Pagar</h4>
+    {{=contas_pagar}}
+</div>
+<div class="ui-widget-content" style="width:auto;float:left">
+    <h4 class="ui-widget-header">Contas a Receber</h4>
+    {{=contas_receber}}
+</div>
+{{pass}}

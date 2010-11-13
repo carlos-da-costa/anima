@@ -1,0 +1,14 @@
+(dp1
+S'grupo'
+p2
+S'INT, INDEX grupo__idx (grupo), FOREIGN KEY (grupo) REFERENCES grupo(id) ON DELETE CASCADE'
+p3
+sS'id'
+p4
+S'INT AUTO_INCREMENT NOT NULL'
+p5
+sS'contato'
+p6
+S'INT, INDEX contato__idx (contato), FOREIGN KEY (contato) REFERENCES contato(id) ON DELETE CASCADE'
+p7
+s.

@@ -1,0 +1,57 @@
+#
+# Configurações de Mensagens
+#
+#crud.settings.formstyle = 'divs'
+crud.settings.keepvalues = False
+crud.settings.showid = True
+crud.messages.submit_button = 'Enviar'
+crud.messages.delete_label = 'Marque para deletar:'
+crud.messages.record_created = 'Registro Criado'
+crud.messages.record_updated = 'Registro Atualizado'
+crud.messages.record_deleted = 'Registro Deletado'
+
+auth.messages.submit_button = 'Enviar'
+auth.messages.verify_password = 'Verificar Senha'
+auth.messages.delete_label = 'Marque para deletar:'
+auth.messages.function_disabled = 'Funçãoo desabilitada'
+auth.messages.access_denied = 'Privilégios insuficientes.'
+auth.messages.registration_verifying = 'O Registro necessita verificação.'
+auth.messages.registration_pending = 'A Aprovação do registro está pendente.'
+auth.messages.login_disabled = 'Login desabilitado pelo administrador.'
+auth.messages.logged_in = 'Conectado'
+auth.messages.email_sent = 'Email enviado'
+auth.messages.unable_to_send_email = 'Problema ao enviar email.'
+auth.messages.email_verified = 'Email verificado'
+auth.messages.logged_out = 'Desconectado'
+auth.messages.registration_successful = 'Registro bem sucedido'
+auth.messages.invalid_email = 'Email inválido'
+auth.messages.invalid_login = 'Login inválido'
+auth.messages.invalid_user = 'Usuário inválido'
+auth.messages.is_empty = "Não pode ser vazio"
+auth.messages.mismatched_password = "As senhas nÃ£o conferem"
+# auth.messages.verify_email = ""
+auth.messages.verify_email_subject = 'Verficação de Senha'
+auth.messages.username_sent = 'Seu nome de usuário foi enviado para sua caixa de Email.'
+auth.messages.new_password_sent = 'Sua nova senha foi enviada para seu Email.'
+auth.messages.password_changed = 'Senha foi trocada'
+auth.messages.retrieve_username = 'Recuperear nome de usuário'
+auth.messages.retrieve_username_subject = 'Recuperação de Nome de Usuário'
+auth.messages.retrieve_password = 'Recuperar senha.'
+auth.messages.retrieve_password_subject = 'Recuperação de senha.'
+auth.messages.profile_updated = 'Perfil atualizado'
+auth.messages.new_password = 'Nova senha'
+auth.messages.old_password = 'Senha antiga'
+auth.messages.register_log = 'Usuário %(id)s registrado'
+auth.messages.login_log = 'Usuário %(id)s conectado'
+auth.messages.logout_log = 'Usuário %(id)s desconectado'
+auth.messages.profile_log = 'Perfil de %(id)s foi atualizado'
+#auth.messages.verify_email_log = ''
+#auth.messages.retrieve_username_log = ''
+#auth.messages.retrieve_password_log = ...
+#auth.messages.change_password_log = ..
+auth.messages.add_group_log = 'Grupo %(group_id)s foi criado'
+auth.messages.del_group_log = 'Grupo %(group_id)s foi deletado'
+auth.messages.add_membership_log = None
+auth.messages.del_membership_log = None
+auth.messages.has_membership_log = None
+auth.messages.add_permission_log = None

@@ -1,0 +1,20 @@
+{{extend "layout.html"}}
+<script type="text/javascript">
+	$(function() {
+		$("#tabs").tabs();
+	});
+</script>
+
+<div id="tabs">
+	<ul>
+		<li><a href="#tabs-todos">Todos</a></li>
+		<li><a href="#tabs-novo">Novo</a></li>
+	</ul>
+	
+	<div id="tabs-todos">
+		{{=grid}}
+	</div>
+	<div id="tabs-novo">
+		{{=form}}
+	</div>
+</div>

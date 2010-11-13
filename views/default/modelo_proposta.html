@@ -1,0 +1,25 @@
+{{response.files.append(URL(r=request,c='static',f='ckeditor/ckeditor.js'))}}
+{{response.files.append(URL(r=request,c='static',f='ckeditor/adapters/jquery.js'))}}
+{{extend "layout.html"}}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#tabs").tabs();        
+    });
+</script>
+<div id="tabs">
+    <ul>
+        <li>
+            <a href="#tabs-todos">Todos</a>
+        </li>
+        <li>
+            <a href="#tabs-novo">Novo</a>
+        </li>
+    </ul>
+    <div id="tabs-todos">
+        {{=grid}}
+    </div>
+    <div id="tabs-novo">
+        {{=form}}<h4>Campos disponíveis</h4>
+        {{=UL([LI(db.proposta[c].label,'-> $$=',c,'$$') for c in campos])}}
+    </div>
+</div>

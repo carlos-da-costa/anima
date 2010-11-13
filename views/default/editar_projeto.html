@@ -1,0 +1,97 @@
+{{extend 'layout.html'}}
+<script type="text/javascript">
+    $(function(){
+        $("#tabs").tabs();
+    });
+</script>
+<div id="tabs">
+    <ul>
+        <li>
+            <a href="#tabs-geral">Geral</a>
+        </li>
+        <li>
+            <a href="#tabs-prop">Propostas</a>
+        </li>
+        <li>
+            <a href="#tabs-cont">Contratos</a>
+        </li>
+        <li>
+            <a href="#diag-alfa">Diag. Alfa</a>
+        </li>
+        <li>
+            <a href="#diag-beta">Diag. Beta</a>
+        </li>
+        <li>
+            <a href="#diag-gama">Diag. Gama</a>
+        </li>
+        <li>
+            <a href="#diag-gama-pontos">Diag. Gama Pontos</a>
+        </li>
+        <li>
+            <a href="#plano-acao">Planos de Ação</a>
+        </li>
+        <li>
+            <a href="#registros-info">Registros de Informação</a>
+        </li>
+		<li>
+            <a href="#plan-estrategico">Plan. Estratégico</a>
+        </li>
+    </ul>
+    <div id="tabs-geral">
+        {{if proposta_aprovada:}}
+        <p>
+            Proposta aprovada: {{=A('Editar',_href=URL(r=request,c='default',f='editar_proposta',args=proposta_aprovada.id))}} 
+            {{=A('Visualizar',_href=URL(r=request,c='default',f='visualizar_proposta',args=proposta_aprovada.id))}}
+        </p>
+        {{else:}}
+        <p>
+            Ainda não há propostas nesse projeto.
+        </p>
+        {{pass}}
+        {{if contrato_fechado:}}
+        <p>
+            Contrato aprovado: {{=A('Editar',_href=URL(r=request,c='default',f='editar_contrato',args=contrato_fechado.id))}}
+			{{=A('Visualizar',_href=URL(r=request,c='default',f='visualizar_contrato',args=contrato_fechado.id))}}
+        </p>
+        {{else:}}
+        <p>
+            Não há contrato para a proposta aprovada ou não há nenhum contrato.
+        </p>
+        {{pass}}
+		<p>
+			{{=form}}
+		</p>
+    </div>
+    <div id="tabs-prop">
+        {{=A(TAG.button('Nova Proposta',_id='nova_proposta'),_href=URL(r=request,c='default',f='criar_proposta',args=projeto.id))}} 
+        {{=propostas}} 
+    </div>
+    <div id="tabs-cont">
+        {{=A(TAG.button('Novo Contrato',_id='nova_contrato'),_href=URL(r=request,c='default',f='criar_contrato',args=projeto.id))}}
+        {{=contratos}}
+    </div>
+    <div id="diag-alfa">
+        {{=LOAD('default','editar_diag_alfa.load',args=[projeto.diagnostico_alfa],ajax=False)}}
+    </div>
+    <div id="diag-beta">
+        {{=LOAD('default','editar_diag_beta',args=[projeto.diagnostico_beta],ajax=False)}}
+    </div>
+    <div id="diag-gama">
+        {{=LOAD('default','editar_diag_gama.load',args=[projeto.diagnostico_gama],ajax=False)}}
+    </div>
+    <div id="diag-gama-pontos">
+        {{=LOAD('default','diag_gama_pontos.html',args=[projeto.diagnostico_gama],ajax=False)}}
+    </div>
+    <div id="plano-acao">
+        {{=A(TAG.button('Novo Plano de Ação',_id='plano_acao'),_href=URL(r=request,c='default',f='plano_acao',args=projeto.id))}}
+        {{=planos}}
+    </div>
+    <div id="registros-info">
+        {{=A(TAG.button('Novo Registro de Informação',_id='registro'),_href=URL(r=request,c='default',f='registro_info',args=projeto.id))}}
+        {{=registros_info}}
+    </div>
+	<div id="plan-estrategico">
+        {{=A(TAG.button('Novo Planejamento Estratégico',_id='plan_estrategico'),_href=URL(r=request,c='default',f='planejamento_estrategico',args=projeto.id))}}
+        {{=plan_estrategico}}
+    </div>
+</div>

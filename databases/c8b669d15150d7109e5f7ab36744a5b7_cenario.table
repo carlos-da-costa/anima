@@ -1,0 +1,14 @@
+(dp1
+S'proposta'
+p2
+S'INTEGER REFERENCES proposta(id) ON DELETE CASCADE'
+p3
+sS'id'
+p4
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p5
+sS'item_cenario'
+p6
+S'INTEGER REFERENCES item_cenario(id) ON DELETE CASCADE'
+p7
+s.

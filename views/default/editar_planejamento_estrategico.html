@@ -1,0 +1,11 @@
+{{extend 'layout.html'}}
+<table width="100%" border="1">
+    <tr>
+        <td>
+            {{=form}}
+        </td>
+        <td>
+            {{=LOAD('default','editar_setores.html',args=request.args(0),target='str')}}
+        </td>
+    </tr>
+</table>

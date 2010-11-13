@@ -1,0 +1,14 @@
+(dp1
+S'titulo'
+p2
+S'CHAR(512)'
+p3
+sS'id'
+p4
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p5
+sS'menus'
+p6
+S'TEXT'
+p7
+s.

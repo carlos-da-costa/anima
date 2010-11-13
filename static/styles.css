@@ -1,0 +1,19 @@
+#content {
+	overflow: scroll;
+}
+.flash {
+	margin: 0 auto;
+	text-align: center;
+	clear: both;
+	border-top: 5px;
+	background-color: #FF5C1F;
+	color: white;
+	margin-top: 10px;
+	padding-top: 1.0em;
+	padding-bottom: 1.0em;
+	cursor: pointer;
+}
+.locked {
+	background-color: rgb(255,204,0);
+	color: black;
+}

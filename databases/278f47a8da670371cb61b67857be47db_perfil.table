@@ -1,0 +1,34 @@
+(dp1
+S'raio_atuacao'
+p2
+S'VARCHAR(512)'
+p3
+sS'cliente'
+p4
+S'INT, INDEX cliente__idx (cliente), FOREIGN KEY (cliente) REFERENCES empresa(id) ON DELETE CASCADE'
+p5
+sS'funcionarios'
+p6
+S'INT'
+p7
+sS'historico'
+p8
+S'LONGTEXT'
+p9
+sS'briefing'
+p10
+S'LONGTEXT'
+p11
+sS'atuacao_societaria'
+p12
+S'VARCHAR(512)'
+p13
+sS'filiais'
+p14
+S'INT'
+p15
+sS'id'
+p16
+S'INT AUTO_INCREMENT NOT NULL'
+p17
+s.

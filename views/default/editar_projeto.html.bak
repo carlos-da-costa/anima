@@ -1,0 +1,17 @@
+{{extend 'layout.html'}}
+<h1>Projeto #{{=projeto.id}}</h1>
+<h2>Cliente: {{=projeto.cliente.nome}}</h2>
+<h4>Propostas:</h4>
+{{if propostas:}}
+    {{=propostas}}
+{{else:}}
+    <p>Ainda não há propostas nesse projeto.
+    {{=A('Criar proposta',_href=URL(r=request,f='criar_proposta',args=[projeto.id]))}}</p>
+{{pass}}
+<h4>Contrato</h4>
+{{if projeto.contrato:}}
+    {{=projeto.contrato}}
+{{else:}}
+    <p>Ainda não há um contrato para este projeto.
+    {{=A('Criar contrato',_href=URL(r=request,f='criar_contrato',args=[projeto.id]))}}</p>
+{{pass}}

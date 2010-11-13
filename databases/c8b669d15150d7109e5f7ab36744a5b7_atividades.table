@@ -1,0 +1,22 @@
+(dp1
+S'concluido'
+p2
+S'INTEGER'
+p3
+sS'data_limite'
+p4
+S'DATE'
+p5
+sS'id'
+p6
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p7
+sS'descricao'
+p8
+S'TEXT'
+p9
+sS'plano_acao'
+p10
+S'INTEGER REFERENCES plano_acao(id) ON DELETE CASCADE'
+p11
+s.

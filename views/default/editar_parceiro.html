@@ -1,0 +1,21 @@
+{{extend 'layout.html'}}
+<script type="text/javascript">
+	$(function(){
+		$("#tabs").tabs();
+		$("#parceiro_cidade").attr("disabled",true);
+        $("#parceiro_uf").change(function(){
+            $("#parceiro_cidade").attr("disabled",true);
+            $("#parceiro_cidade").html("<option value=0>Carregando</option>");
+            $.getJSON("/anima/default/cidades", {"uf":$("#parceiro_uf").val()},function (data){
+                options = "";
+                jQuery.each(data, function (i, item){
+                    options += "<option value=" +item.id+ ">" + item.nome+ "</option>"
+                    });
+                $("#parceiro_cidade").html(options);
+                $("#parceiro_cidade").removeAttr("disabled");
+                } );
+        });
+        
+    });
+</script>
+{{=form}}

@@ -1,0 +1,209 @@
+@charset "UTF-8";
+/*********** reset common tags ***********/
+html, div, h1, h2, h3, h4, h5, h6p, ul, li, table, thead, tbody, tfoot, th, tr, td {
+    border: 0;
+    margin: 0;
+    outline: 0;
+    padding: 0;
+    color: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+    font-style: inherit;
+    line-height: 1.0em;
+    text-align: left;
+    vertical-align: top;
+}
+
+/*********** choose default fonts ***********/
+body {
+    font-family: Helvetica Narrow, sans-serif;
+    font-size: 10pt;
+    text-align: center;
+}
+
+/*********** choose link style ***********/
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+thead th {
+    text-align: center;
+}
+
+/*********** make all input fields the same size ***********/
+input[type = text], input[type = password], textarea{
+    width: 300px;
+}
+
+select {
+    min-width: 200px;
+}
+
+/*********** add proper separation between h1-h6 and text ***********/
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    padding: 5px 0 5px 0;
+}
+
+/*********** always indent the first line and add space below paragraphs ***********/
+p {
+    text-indent: 30px;
+    text-align: justify;
+    padding-bottom: 5px;
+}
+
+/*********** forms and table padding ***********/
+ form, table {
+ padding: 5px 10px 5px 10px;
+ }/
+ 
+ /*********** code blocks ***********/
+code {
+    padding: 3px 5px;
+    font-family: Andale Mono, monospace;
+    font-size: 0.9em;
+}
+
+/*********** left and right padding to quoted text ***********/
+blockquote {
+    background: #cccccc;
+    border-left: 30px transparent;
+    border-right: 30px transparent;
+    padding: 5px;
+}
+
+#header {
+    font-size: 0.9em;
+}
+
+/*#footer { font-size: 0.8em; }*/
+#left_sidebar {
+    padding: 10px;
+}
+
+#content {
+    padding: 10px;
+}
+
+#right_sidebar {
+    padding: 10px;
+}
+
+/*#footer { padding: 10px; }*/
+a {
+    color: #349c01;
+}
+
+.auth_navbar {
+    top: 0px;
+    float: right;
+    padding: 3px 10px 3px 10px;
+    font-size: 0.9em;
+}
+
+code {
+    color: green;
+    background: black;
+}
+
+input:focus, textarea:focus {
+    background: #ccffcc;
+}
+
+#layout {
+    background: white;
+}
+
+#header, #footer {
+    color: black;
+}
+
+#header h1 {
+    color: #349C01;
+}
+
+#header h2 {
+    color: black;
+    font-style: italic;
+    font-size: 14px;
+}
+
+#statusbar {
+    background: #333333;
+    border-bottom: 5px #349C01 solid;
+}
+
+#statusbar a {
+    color: black;
+}
+
+/*********** web2py specific ***********/
+div.flash {
+    position: absolute;
+    float: right;
+    padding: 10px;
+    top: 0px;
+    right: 0px;
+    opacity: 0.75;
+    margin: 10px 10px 10px 10px;
+    text-align: center;
+    clear: both;
+    color: #fff;
+    font-size: 11pt;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background: black;
+    border: 2px solid #fff;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    z-index: 2;
+}
+
+div.error {
+    /*   -moz-border-radius: 5px;     */
+    /*    -webkit-border-radius: 5px; */
+    /*    border: 1px solid #666;     */
+    background-color: red;
+    color: white;
+    padding: 3px;
+}
+
+w2p_fl {
+	display:table;
+	table-layout:fixed;
+	width:300px;
+}
+label{
+	
+	
+}
+
+/*********** labels bold and occasionally centered ***********/
+label {
+    /*white-space: pre-wrap;*/
+	max-width:500px;
+	display:block;
+	text-align:justify;
+}
+
+label, b, th {
+    font-weight: bold;
+}
+
+form > table > tbody > tr > td {
+	padding-bottom: 10px;
+}
+
+#report{
+	overflow:auto;
+}
+
+#content{
+	height:auto;
+	min-height:350;
+}

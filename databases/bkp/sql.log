@@ -1,0 +1,471 @@
+timestamp: 2010-06-02T11:09:05.858000
+CREATE TABLE auth_user(
+    id INT AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(128),
+    last_name VARCHAR(128),
+    email VARCHAR(128) UNIQUE,
+    password VARCHAR(256),
+    registration_key VARCHAR(128),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:06.199000
+CREATE TABLE auth_group(
+    id INT AUTO_INCREMENT NOT NULL,
+    role VARCHAR(512),
+    description LONGTEXT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:06.361000
+CREATE TABLE auth_membership(
+    id INT AUTO_INCREMENT NOT NULL,
+    user_id INT, INDEX user_id__idx (user_id), FOREIGN KEY (user_id) REFERENCES auth_user(id) ON DELETE CASCADE,
+    group_id INT, INDEX group_id__idx (group_id), FOREIGN KEY (group_id) REFERENCES auth_group(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:06.541000
+CREATE TABLE auth_permission(
+    id INT AUTO_INCREMENT NOT NULL,
+    group_id INT, INDEX group_id__idx (group_id), FOREIGN KEY (group_id) REFERENCES auth_group(id) ON DELETE CASCADE,
+    name VARCHAR(512),
+    table_name VARCHAR(512),
+    record_id INT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:06.732000
+CREATE TABLE auth_event(
+    id INT AUTO_INCREMENT NOT NULL,
+    time_stamp DATETIME,
+    client_ip VARCHAR(512),
+    user_id INT, INDEX user_id__idx (user_id), FOREIGN KEY (user_id) REFERENCES auth_user(id) ON DELETE CASCADE,
+    origin VARCHAR(512),
+    description LONGTEXT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:06.885000
+CREATE TABLE empresa(
+    id INT AUTO_INCREMENT NOT NULL,
+    razao_social VARCHAR(512),
+    cnpj VARCHAR(512),
+    cpf VARCHAR(512),
+    endereco VARCHAR(512),
+    numero VARCHAR(512),
+    uf VARCHAR(512),
+    cidade VARCHAR(512),
+    cliente_fornecedor VARCHAR(512),
+    fundacao INT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:07.046000
+CREATE TABLE perfil(
+    id INT AUTO_INCREMENT NOT NULL,
+    funcionarios INT,
+    raio_atuacao VARCHAR(512),
+    filiais INT,
+    atuacao_societaria VARCHAR(512),
+    briefing LONGTEXT,
+    historico LONGTEXT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:07.295000
+CREATE TABLE contato(
+    id INT AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(512),
+    celular VARCHAR(512),
+    email VARCHAR(512),
+    endereco VARCHAR(512),
+    numero VARCHAR(512),
+    cidade VARCHAR(512),
+    uf VARCHAR(512),
+    empresa INT, INDEX empresa__idx (empresa), FOREIGN KEY (empresa) REFERENCES empresa(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:07.445000
+CREATE TABLE grupo(
+    id INT AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:07.824000
+CREATE TABLE participacao(
+    id INT AUTO_INCREMENT NOT NULL,
+    contato INT, INDEX contato__idx (contato), FOREIGN KEY (contato) REFERENCES contato(id) ON DELETE CASCADE,
+    grupo INT, INDEX grupo__idx (grupo), FOREIGN KEY (grupo) REFERENCES grupo(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:08.373000
+CREATE TABLE log(
+    id INT AUTO_INCREMENT NOT NULL,
+    acao VARCHAR(512),
+    data DATETIME,
+    usuario INT, INDEX usuario__idx (usuario), FOREIGN KEY (usuario) REFERENCES auth_user(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:08.458000
+CREATE TABLE banco(
+    id INT AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(512),
+    agencia VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:08.722000
+CREATE TABLE conta(
+    id INT AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(512),
+    numero VARCHAR(512),
+    saldo_inicial DOUBLE,
+    banco INT, INDEX banco__idx (banco), FOREIGN KEY (banco) REFERENCES banco(id) ON DELETE CASCADE,
+    obs LONGTEXT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:09.008000
+CREATE TABLE tipo_documento(
+    id INT AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:09.304000
+CREATE TABLE categoria_entrada_saida(
+    id INT AUTO_INCREMENT NOT NULL,
+    nome VARCHAR(512),
+    entrada_saida VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:09.506000
+CREATE TABLE conta_a_pagar(
+    id INT AUTO_INCREMENT NOT NULL,
+    fornecedor INT, INDEX fornecedor__idx (fornecedor), FOREIGN KEY (fornecedor) REFERENCES empresa(id) ON DELETE CASCADE,
+    valor DOUBLE,
+    vencimento DATE,
+    tipo_documento INT, INDEX tipo_documento__idx (tipo_documento), FOREIGN KEY (tipo_documento) REFERENCES tipo_documento(id) ON DELETE CASCADE,
+    data_pagamento DATE,
+    paga CHAR(1),
+    categoria INT, INDEX categoria__idx (categoria), FOREIGN KEY (categoria) REFERENCES categoria_entrada_saida(id) ON DELETE CASCADE,
+    descricao LONGTEXT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:09.931000
+CREATE TABLE conta_a_receber(
+    id INT AUTO_INCREMENT NOT NULL,
+    cliente INT, INDEX cliente__idx (cliente), FOREIGN KEY (cliente) REFERENCES empresa(id) ON DELETE CASCADE,
+    valor DOUBLE,
+    vencimento DATE,
+    tipo_documento INT, INDEX tipo_documento__idx (tipo_documento), FOREIGN KEY (tipo_documento) REFERENCES tipo_documento(id) ON DELETE CASCADE,
+    data_recebimento DATE,
+    recebida CHAR(1),
+    categoria INT, INDEX categoria__idx (categoria), FOREIGN KEY (categoria) REFERENCES categoria_entrada_saida(id) ON DELETE CASCADE,
+    descricao LONGTEXT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:10.305000
+CREATE TABLE saida(
+    id INT AUTO_INCREMENT NOT NULL,
+    conta INT, INDEX conta__idx (conta), FOREIGN KEY (conta) REFERENCES conta(id) ON DELETE CASCADE,
+    data DATE,
+    documento INT,
+    valor DOUBLE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:10.446000
+CREATE TABLE entrada(
+    id INT AUTO_INCREMENT NOT NULL,
+    conta INT, INDEX conta__idx (conta), FOREIGN KEY (conta) REFERENCES conta(id) ON DELETE CASCADE,
+    data DATE,
+    documento VARCHAR(512),
+    valor DOUBLE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:10.554000
+CREATE TABLE item_almoxarifado(
+    id INT AUTO_INCREMENT NOT NULL,
+    descricao VARCHAR(512),
+    unidade VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:10.674000
+CREATE TABLE movimento_almoxarifado(
+    id INT AUTO_INCREMENT NOT NULL,
+    item INT, INDEX item__idx (item), FOREIGN KEY (item) REFERENCES item_almoxarifado(id) ON DELETE CASCADE,
+    quantidade INT,
+    movimento VARCHAR(512),
+    data DATE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:10.906000
+CREATE TABLE produto(
+    id INT AUTO_INCREMENT NOT NULL,
+    descricao VARCHAR(512),
+    unidade VARCHAR(512),
+    descontinuado CHAR(1),
+    fornecedor INT, INDEX fornecedor__idx (fornecedor), FOREIGN KEY (fornecedor) REFERENCES empresa(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:09:11.029000
+CREATE TABLE movimento_estoque(
+    id INT AUTO_INCREMENT NOT NULL,
+    produto INT, INDEX produto__idx (produto), FOREIGN KEY (produto) REFERENCES produto(id) ON DELETE CASCADE,
+    quantidade INT,
+    data DATE,
+    movimento VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:10:19.384000
+ALTER TABLE contato ADD cargo VARCHAR(512);
+success!
+timestamp: 2010-06-02T11:17:25.242000
+CREATE TABLE unidade(
+    id INT AUTO_INCREMENT NOT NULL,
+    sigla VARCHAR(512),
+    descricao VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-02T11:22:01.561000
+ALTER TABLE item_almoxarifado ADD unidade__tmp INT, ADD INDEX unidade__idx (unidade), ADD FOREIGN KEY (unidade) REFERENCES unidade(id) ON DELETE CASCADE;
+timestamp: 2010-06-02T11:22:19.949000
+ALTER TABLE item_almoxarifado ADD unidade__tmp INT, ADD INDEX unidade__idx (unidade), ADD FOREIGN KEY (unidade) REFERENCES unidade(id) ON DELETE CASCADE;
+timestamp: 2010-06-02T11:23:25.856000
+ALTER TABLE item_almoxarifado ADD unidade__tmp INT, ADD INDEX unidade__idx (unidade), ADD FOREIGN KEY (unidade) REFERENCES unidade(id) ON DELETE CASCADE;
+faked!
+UPDATE item_almoxarifado SET unidade__tmp=unidade;
+faked!
+ALTER TABLE item_almoxarifado DROP COLUMN unidade;
+faked!
+ALTER TABLE item_almoxarifado ADD unidade INT, ADD INDEX unidade__idx (unidade), ADD FOREIGN KEY (unidade) REFERENCES unidade(id) ON DELETE CASCADE;
+faked!
+UPDATE item_almoxarifado SET unidade=unidade__tmp;
+faked!
+ALTER TABLE item_almoxarifado DROP COLUMN unidade__tmp;
+faked!
+timestamp: 2010-06-02T11:23:25.866000
+ALTER TABLE produto ADD unidade__tmp INT, ADD INDEX unidade__idx (unidade), ADD FOREIGN KEY (unidade) REFERENCES unidade(id) ON DELETE CASCADE;
+faked!
+UPDATE produto SET unidade__tmp=unidade;
+faked!
+ALTER TABLE produto DROP COLUMN unidade;
+faked!
+ALTER TABLE produto ADD unidade INT, ADD INDEX unidade__idx (unidade), ADD FOREIGN KEY (unidade) REFERENCES unidade(id) ON DELETE CASCADE;
+faked!
+UPDATE produto SET unidade=unidade__tmp;
+faked!
+ALTER TABLE produto DROP COLUMN unidade__tmp;
+faked!
+timestamp: 2010-06-02T13:29:45.112000
+ALTER TABLE saida ADD documento__tmp VARCHAR(512);
+success!
+UPDATE saida SET documento__tmp=documento;
+success!
+ALTER TABLE saida DROP COLUMN documento;
+success!
+ALTER TABLE saida ADD documento VARCHAR(512);
+success!
+UPDATE saida SET documento=documento__tmp;
+success!
+ALTER TABLE saida DROP COLUMN documento__tmp;
+success!
+timestamp: 2010-06-07T09:37:36.521000
+ALTER TABLE perfil ADD cliente INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES empresa(id) ON DELETE CASCADE;
+success!
+timestamp: 2010-06-07T09:43:59.011000
+CREATE TABLE funcionario(
+    id INT AUTO_INCREMENT NOT NULL,
+    usuario INT, INDEX usuario__idx (usuario), FOREIGN KEY (usuario) REFERENCES auth_user(id) ON DELETE CASCADE,
+    nome VARCHAR(512),
+    cpf VARCHAR(512),
+    endereco VARCHAR(512),
+    numero VARCHAR(512),
+    uf VARCHAR(512),
+    cidade VARCHAR(512),
+    salario_atual NUMERIC(10,2),
+    vencimento_salario DATE,
+    cargo VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-07T13:50:18.092000
+ALTER TABLE funcionario ADD vencimento_salario__tmp INT;
+success!
+UPDATE funcionario SET vencimento_salario__tmp=vencimento_salario;
+success!
+ALTER TABLE funcionario DROP COLUMN vencimento_salario;
+success!
+ALTER TABLE funcionario ADD vencimento_salario INT;
+success!
+UPDATE funcionario SET vencimento_salario=vencimento_salario__tmp;
+success!
+ALTER TABLE funcionario DROP COLUMN vencimento_salario__tmp;
+success!
+timestamp: 2010-06-07T14:29:10.756000
+CREATE TABLE diagnostico(
+    id INT AUTO_INCREMENT NOT NULL,
+    sede_propria CHAR(1),
+    reformas VARCHAR(512),
+    mudancas VARCHAR(512),
+    maquinas_equipmantos LONGTEXT,
+    outros_fisico LONGTEXT,
+    caixa LONGTEXT,
+    investimento LONGTEXT,
+    custos LONGTEXT,
+    pagar_receber LONGTEXT,
+    estoque LONGTEXT,
+    efetivos INT,
+    terceirizados INT,
+    estagiarios INT,
+    outros_rh VARCHAR(512),
+    organograma VARCHAR(512),
+    missao LONGTEXT,
+    visao LONGTEXT,
+    principios LONGTEXT,
+    ne VARCHAR(512),
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-06-07T14:31:32.063000
+CREATE TABLE projeto_consultoria(
+    id INT AUTO_INCREMENT NOT NULL,
+    cliente INT, INDEX cliente__idx (cliente), FOREIGN KEY (cliente) REFERENCES empresa(id) ON DELETE CASCADE,
+    perfil INT, INDEX perfil__idx (perfil), FOREIGN KEY (perfil) REFERENCES perfil(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-13T15:13:55.409000
+CREATE TABLE parceiros(
+    id INT AUTO_INCREMENT NOT NULL,
+    razao_social VARCHAR(512),
+    cnpj VARCHAR(512),
+    cpf VARCHAR(512),
+    endereco VARCHAR(512),
+    numero VARCHAR(512),
+    uf VARCHAR(512),
+    cidade VARCHAR(512),
+    e_cliente CHAR(1),
+    e_fornecedor CHAR(1),
+    site VARCHAR(512),
+    fundacao INT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-13T15:17:51.024000
+CREATE TABLE parceiro(
+    id INT AUTO_INCREMENT NOT NULL,
+    razao_social VARCHAR(512),
+    cnpj VARCHAR(512),
+    cpf VARCHAR(512),
+    endereco VARCHAR(512),
+    numero VARCHAR(512),
+    uf VARCHAR(512),
+    cidade VARCHAR(512),
+    e_cliente CHAR(1),
+    e_fornecedor CHAR(1),
+    site VARCHAR(512),
+    fundacao INT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-13T15:22:08.439000
+CREATE TABLE empresa(
+    id INT AUTO_INCREMENT NOT NULL,
+    razao_social VARCHAR(512),
+    cnpj VARCHAR(512),
+    cpf VARCHAR(512),
+    endereco VARCHAR(512),
+    numero VARCHAR(512),
+    uf VARCHAR(512),
+    cidade VARCHAR(512),
+    cliente_fornecedor VARCHAR(512),
+    fundacao INT,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2010-07-13T15:22:08.558000
+ALTER TABLE parceiro ADD e_cliente CHAR(1);
+success!
+timestamp: 2010-07-13T15:22:08.910000
+ALTER TABLE parceiro ADD site VARCHAR(512);
+success!
+timestamp: 2010-07-13T15:22:09.219000
+ALTER TABLE parceiro ADD e_fornecedor CHAR(1);
+success!
+timestamp: 2010-07-13T15:22:09.485000
+ALTER TABLE parceiro DROP COLUMN cliente_fornecedor;
+success!
+timestamp: 2010-07-13T15:23:22.161000
+ALTER TABLE perfil ADD cliente__tmp INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE;
+timestamp: 2010-07-13T15:25:45.623000
+ALTER TABLE perfil ADD cliente__tmp INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE;
+timestamp: 2010-07-13T16:11:23.492000
+ALTER TABLE perfil ADD cliente__tmp INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE;
+timestamp: 2010-07-13T16:27:33.083000
+ALTER TABLE perfil ADD cliente__tmp INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE;
+timestamp: 2010-07-13T16:28:57.154000
+ALTER TABLE perfil ADD cliente__tmp INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE;
+timestamp: 2010-07-13T16:30:31.814000
+ALTER TABLE perfil ADD cliente__tmp INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE;
+timestamp: 2010-07-13T16:32:08.303000
+ALTER TABLE perfil ADD cliente__tmp INT, ADD INDEX cliente__idx (cliente), ADD FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE;
+timestamp: 2010-07-13T16:47:18.204000
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512)
+);
+success!
+timestamp: 2010-07-13T16:47:18.308000
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2010-07-13T16:47:18.437000
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id REFERENCES auth_user(id) ON DELETE CASCADE,
+    group_id REFERENCES auth_group(id) ON DELETE CASCADE
+);
+success!
+timestamp: 2010-07-13T16:47:18.577000
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id REFERENCES auth_group(id) ON DELETE CASCADE,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2010-07-13T16:47:18.734000
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id REFERENCES auth_user(id) ON DELETE CASCADE,
+    origin CHAR(512),
+    description TEXT
+);
+success!

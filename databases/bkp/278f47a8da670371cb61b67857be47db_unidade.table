@@ -1,0 +1,14 @@
+(dp1
+S'id'
+p2
+S'INT AUTO_INCREMENT NOT NULL'
+p3
+sS'descricao'
+p4
+S'VARCHAR(512)'
+p5
+sS'sigla'
+p6
+S'VARCHAR(512)'
+p7
+s.

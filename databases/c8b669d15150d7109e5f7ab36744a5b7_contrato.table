@@ -1,0 +1,34 @@
+(dp1
+S'periodo_visitacao'
+p2
+S'CHAR(512)'
+p3
+sS'proposta'
+p4
+S'INTEGER REFERENCES proposta(id) ON DELETE CASCADE'
+p5
+sS'previsao_encerramento'
+p6
+S'DATE'
+p7
+sS'encerramento'
+p8
+S'DATE'
+p9
+sS'projeto'
+p10
+S'INTEGER REFERENCES projeto_consultoria(id) ON DELETE CASCADE'
+p11
+sS'modelo'
+p12
+S'INTEGER REFERENCES modelo_contrato(id) ON DELETE CASCADE'
+p13
+sS'id'
+p14
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p15
+sS'contato_responsavel'
+p16
+S'INTEGER REFERENCES contato(id) ON DELETE CASCADE'
+p17
+s.

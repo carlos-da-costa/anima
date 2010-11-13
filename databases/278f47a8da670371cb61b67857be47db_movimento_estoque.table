@@ -1,0 +1,22 @@
+(dp1
+S'quantidade'
+p2
+S'INT'
+p3
+sS'movimento'
+p4
+S'VARCHAR(512)'
+p5
+sS'produto'
+p6
+S'INT, INDEX produto__idx (produto), FOREIGN KEY (produto) REFERENCES produto(id) ON DELETE CASCADE'
+p7
+sS'id'
+p8
+S'INT AUTO_INCREMENT NOT NULL'
+p9
+sS'data'
+p10
+S'DATE'
+p11
+s.

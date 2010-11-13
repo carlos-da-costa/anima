@@ -1,0 +1,14 @@
+(dp1
+S'perfil'
+p2
+S'INT, INDEX perfil__idx (perfil), FOREIGN KEY (perfil) REFERENCES perfil(id) ON DELETE CASCADE'
+p3
+sS'id'
+p4
+S'INT AUTO_INCREMENT NOT NULL'
+p5
+sS'cliente'
+p6
+S'INT, INDEX cliente__idx (cliente), FOREIGN KEY (cliente) REFERENCES empresa(id) ON DELETE CASCADE'
+p7
+s.

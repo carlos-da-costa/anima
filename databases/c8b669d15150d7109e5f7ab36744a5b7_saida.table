@@ -1,0 +1,22 @@
+(dp1
+S'data'
+p2
+S'DATE'
+p3
+sS'valor'
+p4
+S'DOUBLE'
+p5
+sS'conta'
+p6
+S'INTEGER REFERENCES conta(id) ON DELETE CASCADE'
+p7
+sS'id'
+p8
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p9
+sS'documento'
+p10
+S'CHAR(512)'
+p11
+s.

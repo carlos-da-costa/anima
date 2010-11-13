@@ -1,0 +1,38 @@
+(dp1
+S'o_que'
+p2
+S'CHAR(512)'
+p3
+sS'por_que'
+p4
+S'CHAR(512)'
+p5
+sS'onde'
+p6
+S'CHAR(512)'
+p7
+sS'projeto'
+p8
+S'INTEGER REFERENCES projeto_consultoria(id) ON DELETE CASCADE'
+p9
+sS'quem'
+p10
+S'INTEGER REFERENCES auth_user(id) ON DELETE CASCADE'
+p11
+sS'id'
+p12
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p13
+sS'como'
+p14
+S'CHAR(512)'
+p15
+sS'quanto'
+p16
+S'CHAR(512)'
+p17
+sS'quando'
+p18
+S'DATE'
+p19
+s.

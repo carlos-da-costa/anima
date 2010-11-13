@@ -1,0 +1,26 @@
+(dp1
+S'alternativas'
+p2
+S'TEXT'
+p3
+sS'questionario'
+p4
+S'INTEGER REFERENCES questionario(id) ON DELETE CASCADE'
+p5
+sS'tipo'
+p6
+S'CHAR(512)'
+p7
+sS'questao'
+p8
+S'CHAR(512)'
+p9
+sS'grupo'
+p10
+S'INTEGER REFERENCES grupo_quest(id) ON DELETE CASCADE'
+p11
+sS'id'
+p12
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p13
+s.

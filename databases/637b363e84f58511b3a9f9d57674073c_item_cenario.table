@@ -1,0 +1,14 @@
+(dp1
+S'categoria'
+p2
+S'INT, INDEX categoria__idx (categoria), FOREIGN KEY (categoria) REFERENCES categoria_cenario(id) ON DELETE CASCADE'
+p3
+sS'id'
+p4
+S'INT AUTO_INCREMENT NOT NULL'
+p5
+sS'descricao'
+p6
+S'VARCHAR(512)'
+p7
+s.

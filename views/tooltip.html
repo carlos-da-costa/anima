@@ -1,0 +1,9 @@
+<script type="text/javascript">
+	$(function() {
+		$(".w2p_fw").each(function (){
+			$(this).attr('title',$(this).next().html());
+			$(this).next().html('');
+			$(this).tooltip();
+		});
+	});
+</script>

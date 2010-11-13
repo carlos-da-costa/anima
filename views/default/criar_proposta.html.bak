@@ -1,0 +1,5 @@
+{{extend 'layout.html'}}
+<h1>Criando proposta para Projeto {{=A('#%i'%projeto.id,_href=URL(r=request,f='projeto',args=request.args))}}</h1>
+{{=form}}
+<h4>Cenário</h4>
+{{=LOAD('default','novo_item_cenario,ajax=Tru)}}

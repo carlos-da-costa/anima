@@ -1,0 +1,22 @@
+(dp1
+S'conta'
+p2
+S'INT, INDEX conta__idx (conta), FOREIGN KEY (conta) REFERENCES conta(id) ON DELETE CASCADE'
+p3
+sS'documento'
+p4
+S'VARCHAR(512)'
+p5
+sS'data'
+p6
+S'DATE'
+p7
+sS'id'
+p8
+S'INT AUTO_INCREMENT NOT NULL'
+p9
+sS'valor'
+p10
+S'DOUBLE'
+p11
+s.

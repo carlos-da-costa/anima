@@ -1,0 +1,38 @@
+(dp1
+S'categoria'
+p2
+S'INT, INDEX categoria__idx (categoria), FOREIGN KEY (categoria) REFERENCES categoria_entrada_saida(id) ON DELETE CASCADE'
+p3
+sS'recebida'
+p4
+S'CHAR(1)'
+p5
+sS'cliente'
+p6
+S'INT, INDEX cliente__idx (cliente), FOREIGN KEY (cliente) REFERENCES parceiro(id) ON DELETE CASCADE'
+p7
+sS'vencimento'
+p8
+S'DATE'
+p9
+sS'data_recebimento'
+p10
+S'DATE'
+p11
+sS'valor'
+p12
+S'DOUBLE'
+p13
+sS'id'
+p14
+S'INT AUTO_INCREMENT NOT NULL'
+p15
+sS'descricao'
+p16
+S'LONGTEXT'
+p17
+sS'tipo_documento'
+p18
+S'INT, INDEX tipo_documento__idx (tipo_documento), FOREIGN KEY (tipo_documento) REFERENCES tipo_documento(id) ON DELETE CASCADE'
+p19
+s.
