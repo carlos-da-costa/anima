@@ -99,9 +99,9 @@ comunicacao = ['A comunicação  na  empresa  apresenta  fraca  fluidez  ou  din
 periodo_mes = ['quinzenal', 'mensal', 'bimestral', 'trimestral', 'semestral', 'anual']
 
 #customização do jqgrid
-def edicao(id,url):
+def edicao(id,url,caption):
     url='/'+request.application+url+str(id)
-    return A(TAG.button(id,' ','Editar'),_href=url)
+    return A(TAG.button(caption,_class='ui-button ui-widget ui-state-default ui-corner-all'),_href=url)
 
 def visualizacao(id,url):
     url='/'+request.application+url+str(id)

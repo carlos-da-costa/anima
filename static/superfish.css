@@ -79,8 +79,10 @@ margin-bottom:	1em;
 }
 .sf-menu li:hover, .sf-menu li.sfHover,
 .sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active {
-	background:		#CFDEFF;
+	/*
+background:		#CFDEFF;
 	outline:		0;
+*/
 }
 
 /*** arrows **/

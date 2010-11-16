@@ -625,7 +625,8 @@ def rel_fluxo_caixa():
     form = SQLFORM.factory(Field('data_ini', 'date', label='Data inicial',
                                  requires=IS_DATE(format='%d/%m/%Y', error_message='use o formato 31/12/1981')),
                            Field('data_fim', 'date', label='Data final',
-                                 requires=IS_DATE(format='%d/%m/%Y', error_message='use o formato 31/12/1981')))
+                                 requires=IS_DATE(format='%d/%m/%Y', error_message='use o formato 31/12/1981')),
+                                 submit_button='Enviar')
     pdf_link=FORM(INPUT(_type='submit',_value='PDF'),
                       hidden=dict(data_ini=request.vars.data_ini,data_fim=request.vars.data_fim),
                       _action='rel_fluxo_caixa.pd',
@@ -675,7 +676,8 @@ def rel_contas_pagar():
     form = SQLFORM.factory(Field('data_ini', 'date', label='Data inicial',
                                  requires=IS_DATE(format='%d/%m/%Y', error_message='use o formato 31/12/1981')),
                            Field('data_fim', 'date', label='Data final',
-                                 requires=IS_DATE(format='%d/%m/%Y', error_message='use o formato 31/12/1981')))
+                                 requires=IS_DATE(format='%d/%m/%Y', error_message='use o formato 31/12/1981')),
+                                 submit_button='Enviar')
     pdf_link=FORM(INPUT(_type='submit',_value='PDF'),
                       hidden=dict(data_ini=request.vars.data_ini,data_fim=request.vars.data_fim),
                       _action='rel_fluxo_caixa.pd')
@@ -720,7 +722,8 @@ def rel_contas_receber():
     form = SQLFORM.factory(Field('data_ini', 'date', label='Data inicial',
                                  requires=IS_DATE(format='%d/%m/%Y', error_message='use o formato 31/12/1981')),
                            Field('data_fim', 'date', label='Data final',
-                                 requires=IS_DATE(format='%d/%m/%Y', error_message='use o formato 31/12/1981')))
+                                 requires=IS_DATE(format='%d/%m/%Y', error_message='use o formato 31/12/1981')),
+                                 submit_button='Enviar')
     pdf_link=FORM(INPUT(_type='submit',_value='PDF'),
                       hidden=dict(data_ini=request.vars.data_ini,data_fim=request.vars.data_fim),
                       _action='rel_fluxo_caixa.pd')
@@ -840,7 +843,8 @@ def rel_extrato_estoque():
     form = SQLFORM.factory(Field('data_ini', 'date', label='Data inicial',
                                  requires=IS_DATE(format='%d/%m/%Y', error_message='use o formato 31/12/1981')),
                            Field('data_fim', 'date', label='Data final',
-                                 requires=IS_DATE(format='%d/%m/%Y', error_message='use o formato 31/12/1981')))
+                                 requires=IS_DATE(format='%d/%m/%Y', error_message='use o formato 31/12/1981')),
+                                 submit_button='Enviar')
     pdf_link=FORM(INPUT(_type='submit',_value='PDF'),
                       hidden=dict(data_ini=request.vars.data_ini,data_fim=request.vars.data_fim),
                       _action='rel_fluxo_caixa.pd')
@@ -1197,7 +1201,7 @@ def editar_cenario():
                )
 def categoria_cenario():
     form = crud.create(db.categoria_cenario)
-    categorias = plugin_jqgrid(db.categoria_cenario, width=700)
+    categorias = plugin_jqgrid(db.categoria_cenario, col_width=largura_col, width=largura_grid)
     return dict(form=form, grid=categorias)
 
 @auth.requires(auth.has_membership(auth.id_group('usuario')) or 
@@ -1216,7 +1220,7 @@ def item_cenario():
     db.item_cenario.categoria.default = request.args(0)
     db.item_cenario.categoria.writable = db.item_cenario.categoria.readable = False
     form_itens = crud.create(db.item_cenario)
-    grid = plugin_jqgrid(db.item_cenario, 'categoria', request.args(0))
+    grid = plugin_jqgrid(db.item_cenario, 'categoria', request.args(0),col_width=largura_col, width=largura_grid)
     return dict(form=form_itens, grid=grid)
 
 @auth.requires(auth.has_membership(auth.id_group('usuario')) or

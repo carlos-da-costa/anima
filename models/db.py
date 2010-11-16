@@ -79,7 +79,7 @@ auth.settings.table_user = auth_table
 auth_group_table = db.define_table('auth_group',
                              Field('role',label='Papel'),
                              Field('description',label='Descrição'))
-auth_group_table.id.represent = lambda id: edicao(id,'/default/editar_auth_group/')
+auth_group_table.id.represent = lambda id: edicao(id,'/default/editar_auth_group/','Editar')
 auth.settings.table_group = auth_group_table
 
 auth.define_tables()                         # creates all needed tables
@@ -616,13 +616,13 @@ db.define_table('projeto_consultoria',
                 )
 db.projeto_consultoria.cliente.requires = IS_IN_DB(db, 'parceiro.id', '%(nome)s')
 db.projeto_consultoria.cliente.represent = lambda id: db.parceiro[id].nome
-db.projeto_consultoria.id.represent = lambda id: edicao(id, '/default/editar_projeto/')
+db.projeto_consultoria.id.represent = lambda id: edicao(id, '/default/editar_projeto/','Editar')
 
 db.define_table('modelo_proposta',
                 Field('descricao', 'string',),
                 Field('modelo', 'text')
-                )
-db.modelo_proposta.id.represent = lambda id: SPAN(A('editar', _href=URL(r=request, c="default", f="editar_modelo_proposta", args=id)))
+          )
+db.modelo_proposta.id.represent = lambda id: edicao(id,'/default/editar_modelo_proposta/','Editar')
 
 db.define_table('proposta',
                 Field('modelo', db.modelo_proposta),
@@ -639,20 +639,17 @@ db.define_table('proposta',
                 Field('aprovada', 'boolean', default=False,represent=rep_sim_nao),
                 Field('data_aprovacao', 'date'))
 db.proposta.modelo.requires = IS_IN_DB(db, 'modelo_proposta.id', '%(descricao)s')
-db.proposta.id.represent = lambda id: SPAN(A('editar', _href=URL(r=request, c="default", f="editar_proposta", args=id)))
+db.proposta.id.represent = lambda id: edicao(id,'/default/editar_proposta/','Editar')
 
 db.define_table('categoria_cenario',
                Field('descricao', 'string'))
-db.categoria_cenario.id.represent = lambda id: SPAN(A('editar', _href=URL(r=request, c="default", f="editar_categoria_cenario", args=id)))
+db.categoria_cenario.id.represent = lambda id: edicao(id,'/default/editar_categoria_cenario/','Editar')
 
 db.define_table('item_cenario',
                 Field('descricao', 'string'),
                 Field('categoria', db.categoria_cenario))
 db.item_cenario.categoria.requires = IS_IN_DB(db, 'categoria_cenario.id', '%(descricao)s')
-db.item_cenario.id.represent = lambda id: SPAN(
-                                                      B(db.categoria_cenario[db.item_cenario[id].categoria].descricao),
-                                                      '-',
-                                                      db.item_cenario[id].descricao)
+db.item_cenario.id.represent = lambda id: edicao(id,'/default/item_cenario/','Editar')
 
 db.define_table('cenario',
                 Field('proposta', db.proposta),
@@ -672,16 +669,16 @@ db.define_table('contrato',
                 Field('proposta', db.proposta,
                       requires = IS_IN_DB(db, 'proposta.id')),
                 Field('projeto', db.projeto_consultoria,
-                      represent=lambda id: edicao(id,'/default/editar_projeto/')),
+                      represent=lambda id: edicao(id,'/default/editar_projeto/','Editar')),
                 Field('periodo_visitacao', 'string'),
                 Field('encerramento', 'date'))
-db.contrato.id.represent = lambda id: edicao(id,'/default/editar_contrato/')
+db.contrato.id.represent = lambda id: edicao(id,'/default/editar_contrato/','Editar')
 
 db.define_table('plano_acao',
                 Field('projeto',
                       db.projeto_consultoria, 
                       requires=IS_IN_DB(db,'projeto_consultoria.id','%(cliente)s-%(id)s'),
-                      represent=lambda id: edicao(id,'/default/editar_projeto/'),
+                      represent=lambda id: edicao(id,'/default/editar_projeto/','Editar'),
                       label='Projeto'),
                 Field('o_que','string',label='O quê?'),
                 Field('quando','date',label='Quando?'),
@@ -691,13 +688,13 @@ db.define_table('plano_acao',
                 Field('onde','string',label='Onde?'),
                 Field('por_que','string',label='Por quê?'),
                 Field('como','string',label='Como?'))
-db.plano_acao.id.represent = lambda id: edicao(id,'/default/editar_plano_acao/')
+db.plano_acao.id.represent = lambda id: edicao(id,'/default/editar_plano_acao/','Editar')
 
 db.define_table('atividade',
                 Field('plano_acao',
                       db.plano_acao,
                       requires=IS_IN_DB(db,'plano_acao.id','%(projeto)s-%(id)s'),
-                      represent=lambda v: edicao(v,'/default/editar_plano_acao/')),
+                      represent=lambda v: edicao(v,'/default/editar_plano_acao/','Editar')),
                 Field('descricao','text',label='Descrição'),
                 Field('data_limite','date',label='Data limite',requires=IS_DATE(format='%d/%m/%Y', error_message='use o formato 31/12/1981')),
                 Field('concluido','integer',label='Concluído (%)', default=0,
@@ -720,7 +717,7 @@ db.define_table('registro_info',
                       label='Plano de ação já apresentado'),
                 Field('situacoes_definidas','text',label='Situações definidas'),
                 Field('consideracoes_finais','text',label='Considerações Finais'))
-db.registro_info.id.represent=lambda id: edicao(id,'/default/editar_registro_info/')
+db.registro_info.id.represent=lambda id: edicao(id,'/default/editar_registro_info/','Editar')
 
 db.define_table('planejamento_estrategico',
                 Field('projeto',db.projeto_consultoria),
@@ -739,7 +736,7 @@ db.define_table('planejamento_estrategico',
                 Field('levantamento_investimento','text',label='Levantamento dos investimentos'),
                 Field('planejamento_marketing','text',label='Planejamento de Marketing'),
                 Field('consideracoes_finais','text',label='Considerações finais'))
-db.planejamento_estrategico.id.represent = lambda id: edicao(id,'/default/editar_planejamento_estrategico/')
+db.planejamento_estrategico.id.represent = lambda id: edicao(id,'/default/editar_planejamento_estrategico/','Editar')
 
 db.define_table('setor',
                 Field('descricao','string',label='Descrição'),
